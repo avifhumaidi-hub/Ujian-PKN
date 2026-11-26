@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan UAS Pendidikan Pancasila Kelas 9 - SMPN 1 Kalipare</title>
+    <!-- Menggunakan Tailwind CSS untuk desain responsif dan modern -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter untuk keterbacaan optimal di perangkat seluler -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons untuk ikon antarmuka yang bersih -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Kustomisasi scrollbar agar rapi di desktop maupun mobile */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .fade-in {
+            animation: fadeIn 0.25s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col select-none sm:select-auto">
+
+    <!-- HEADER APLIKASI -->
+    <header class="bg-gradient-to-r from-red-700 via-red-800 to-rose-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/15 p-2 rounded-xl backdrop-blur-sm border border-white/20">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-amber-300"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg leading-tight tracking-tight">Pendidikan Pancasila IX</h1>
+                    <p class="text-xs text-red-100 font-medium">SMP Negeri 1 Kalipare • Latihan UAS</p>
+                </div>
+            </div>
+            
+            <!-- Tombol Toggle Mode Guru -->
+            <button id="btn-teacher-mode" onclick="toggleTeacherModal()" class="flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 active:bg-white/25 border border-white/25 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all shadow-sm">
+                <i id="teacher-icon" data-lucide="lock" class="w-3.5 h-3.5 text-amber-300"></i>
+                <span id="teacher-btn-text">Mode Guru</span>
+            </button>
+        </div>
+
+        <!-- Banner Status Mode Guru (Muncul jika aktif) -->
+        <div id="teacher-banner" class="hidden bg-amber-400 text-amber-950 text-xs font-bold px-4 py-1.5 text-center flex items-center justify-center space-x-2 shadow-inner">
+            <i data-lucide="eye" class="w-4 h-4"></i>
+            <span>MODE GURU AKTIF: Kunci Jawaban & Pembahasan HOTS Ditampilkan</span>
+            <button onclick="deactivateTeacherMode()" class="underline ml-2 hover:text-red-800">Matikan</button>
+        </div>
+    </header>
+
+    <!-- NAVIGASI TAB UTAMA -->
+    <nav class="bg-white border-b border-slate-200 sticky top-[62px] sm:top-[68px] z-30 shadow-sm">
+        <div class="max-w-4xl mx-auto px-2 flex justify-around">
+            <button onclick="switchTab('materi')" id="tab-materi" class="nav-tab flex-1 py-3 px-2 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-red-700 flex items-center justify-center space-x-1.5 transition-colors">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Ringkasan Materi</span>
+            </button>
+            <button onclick="switchTab('kisikisi')" id="tab-kisikisi" class="nav-tab flex-1 py-3 px-2 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-red-700 flex items-center justify-center space-x-1.5 transition-colors">
+                <i data-lucide="list-checks" class="w-4 h-4"></i>
+                <span>Kisi-Kisi UAS</span>
+            </button>
+            <button onclick="switchTab('latihan')" id="tab-latihan" class="nav-tab flex-1 py-3 px-2 text-xs sm:text-sm font-semibold border-b-2 border-red-700 text-red-700 flex items-center justify-center space-x-1.5 transition-colors">
+                <i data-lucide="pen-tool" class="w-4 h-4"></i>
+                <span>50 Soal HOTS</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- KONTEN UTAMA -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-5 pb-24">
+
+        <!-- ========================================== -->
+        <!-- SECTION 1: RINGKASAN MATERI                -->
+        <!-- ========================================== -->
+        <section id="view-materi" class="hidden fade-in space-y-4">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                <div class="flex items-center space-x-2.5 mb-2">
+                    <span class="bg-red-100 text-red-700 p-2 rounded-xl"><i data-lucide="book-marked" class="w-5 h-5"></i></span>
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900">Ringkasan Materi Inti Kelas 9</h2>
+                        <p class="text-xs text-slate-500">Pelajari konsep kunci sebelum mengerjakan 50 soal HOTS.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accordion Materi -->
+            <div id="materi-container" class="space-y-3">
+                <!-- Diisi melalui JavaScript -->
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECTION 2: KISI-KISI SOAL UAS              -->
+        <!-- ========================================== -->
+        <section id="view-kisikisi" class="hidden fade-in space-y-4">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <div class="flex items-center space-x-2.5">
+                        <span class="bg-blue-100 text-blue-700 p-2 rounded-xl"><i data-lucide="table" class="w-5 h-5"></i></span>
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900">Kisi-Kisi Soal UAS Kelas IX</h2>
+                            <p class="text-xs text-slate-500">SMP Negeri 1 Kalipare • Kurikulum Merdeka / K-13</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-semibold bg-slate-100 text-slate-700 px-3 py-1 rounded-full border border-slate-200">Total: 50 Butir Soal HOTS</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-800 text-white text-xs uppercase tracking-wider">
+                                <th class="py-3 px-4 font-semibold">No</th>
+                                <th class="py-3 px-4 font-semibold">Lingkup Materi</th>
+                                <th class="py-3 px-4 font-semibold">Indikator Pencapaian Kompetensi (HOTS)</th>
+                                <th class="py-3 px-4 font-semibold text-center">Level</th>
+                                <th class="py-3 px-4 font-semibold text-center">No. Soal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kisikisi-tbody" class="divide-y divide-slate-200 text-xs sm:text-sm">
+                            <!-- Diisi melalui JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECTION 3: LATIHAN 50 SOAL HOTS            -->
+        <!-- ========================================== -->
+        <section id="view-latihan" class="fade-in space-y-4">
+
+            <!-- Kartu Identitas Siswa Aktif -->
+            <div id="student-info-bar" class="hidden bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-200 flex items-center justify-between gap-2">
+                <div class="flex items-center space-x-2.5 min-w-0">
+                    <div class="bg-red-50 text-red-700 p-2 rounded-xl shrink-0">
+                        <i data-lucide="user-check" class="w-4 h-4"></i>
+                    </div>
+                    <div class="truncate">
+                        <p id="display-student-name" class="text-xs sm:text-sm font-bold text-slate-900 truncate">-</p>
+                        <p id="display-student-class" class="text-[11px] font-medium text-slate-500">Kelas -</p>
+                    </div>
+                </div>
+                <button onclick="openStudentModal()" class="text-xs font-semibold text-red-700 hover:text-red-800 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-xl transition-colors shrink-0">
+                    Ubah Data
+                </button>
+            </div>
+            
+            <!-- Dashboard Progres & Kontrol -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-red-700 bg-red-50 px-2.5 py-1 rounded-lg border border-red-100" id="question-topic-badge">Materi 1</span>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900 mt-1.5" id="question-counter-text">Soal 1 dari 50</h2>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="openGridModal()" class="flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-semibold transition-colors">
+                            <i data-lucide="grid" class="w-4 h-4"></i>
+                            <span>Daftar Soal</span>
+                        </button>
+                        <button onclick="finishQuiz()" id="btn-finish-top" class="flex items-center space-x-1.5 bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-semibold shadow-sm transition-colors">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                            <span>Selesai</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                    <div id="progress-bar" class="bg-red-700 h-2 rounded-full transition-all duration-300" style="width: 2%;"></div>
+                </div>
+                <div class="flex justify-between text-[11px] text-slate-500 mt-1.5 font-medium">
+                    <span id="answered-count">Terjawab: 0 / 50</span>
+                    <span>Tingkat Kesulitan: HOTS (C4 - C6)</span>
+                </div>
+            </div>
+
+            <!-- Kartu Soal -->
+            <div id="quiz-card" class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-5">
+                <!-- Stimulus / Teks Soal -->
+                <div id="question-text" class="text-sm sm:text-base text-slate-800 leading-relaxed font-medium space-y-3">
+                    <!-- Teks soal dimuat di sini -->
+                </div>
+
+                <!-- Pilihan Jawaban A, B, C, D -->
+                <div id="options-container" class="space-y-2.5 pt-1">
+                    <!-- Opsi jawaban dimuat di sini -->
+                </div>
+
+                <!-- Kotak Pembahasan Khusus Mode Guru atau Setelah Selesai Ujian -->
+                <div id="explanation-box" class="hidden rounded-xl p-4 border text-xs sm:text-sm space-y-2 transition-all">
+                    <!-- Pembahasan dimuat di sini -->
+                </div>
+            </div>
+
+            <!-- Navigasi Sebelumnya / Selanjutnya -->
+            <div class="flex items-center justify-between gap-3 pt-1">
+                <button id="btn-prev" onclick="prevQuestion()" class="flex-1 sm:flex-none flex items-center justify-center space-x-2 bg-white hover:bg-slate-100 active:bg-slate-200 text-slate-700 border border-slate-300 px-5 py-3 rounded-xl text-sm font-semibold shadow-sm transition-all disabled:opacity-40 disabled:pointer-events-none">
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    <span>Sebelumnya</span>
+                </button>
+
+                <button id="btn-next" onclick="nextQuestion()" class="flex-1 sm:flex-none flex items-center justify-center space-x-2 bg-red-700 hover:bg-red-800 active:bg-red-900 text-white px-6 py-3 rounded-xl text-sm font-semibold shadow-sm transition-all">
+                    <span>Selanjutnya</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Panel Hasil Akhir (Muncul setelah klik Selesai) -->
+            <div id="result-panel" class="hidden bg-white rounded-2xl p-6 shadow-md border border-slate-200 space-y-5 fade-in">
+                <div class="text-center space-y-2">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 text-red-700 mb-1">
+                        <i data-lucide="award" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-slate-900">Hasil Latihan UAS Pendidikan Pancasila</h3>
+                    <p class="text-xs text-slate-500">SMP Negeri 1 Kalipare • Evaluasi Mandiri</p>
+                    <div class="inline-block bg-slate-100 border border-slate-200 rounded-xl px-4 py-2 mt-2">
+                        <p id="result-student-identity" class="text-xs sm:text-sm font-bold text-slate-800">Nama Siswa • Kelas</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 text-center">
+                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                        <p class="text-xs text-slate-500 font-medium">Nilai Akhir</p>
+                        <p id="score-final" class="text-2xl sm:text-3xl font-extrabold text-red-700 mt-1">0</p>
+                    </div>
+                    <div class="bg-emerald-50 p-3.5 rounded-2xl border border-emerald-200">
+                        <p class="text-xs text-emerald-700 font-medium">Benar</p>
+                        <p id="score-correct" class="text-2xl sm:text-3xl font-extrabold text-emerald-700 mt-1">0</p>
+                    </div>
+                    <div class="bg-rose-50 p-3.5 rounded-2xl border border-rose-200">
+                        <p class="text-xs text-rose-700 font-medium">Salah / Kosong</p>
+                        <p id="score-wrong" class="text-2xl sm:text-3xl font-extrabold text-rose-700 mt-1">0</p>
+                    </div>
+                </div>
+
+                <div id="score-feedback" class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-xs sm:text-sm text-blue-900 leading-relaxed">
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button onclick="reviewAnswers()" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white py-3 px-4 rounded-xl text-sm font-semibold flex items-center justify-center space-x-2 transition-colors">
+                        <i data-lucide="search-check" class="w-4 h-4"></i>
+                        <span>Lihat Pembahasan Semua Soal</span>
+                    </button>
+                    <button onclick="resetQuiz()" class="flex-1 bg-white hover:bg-slate-100 text-red-700 border border-red-200 py-3 px-4 rounded-xl text-sm font-semibold flex items-center justify-center space-x-2 transition-colors">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        <span>Ulangi Latihan</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- MODAL IDENTITAS SISWA (NAMA & KELAS)       -->
+    <!-- ========================================== -->
+    <div id="student-modal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 fade-in">
+            <div class="flex items-center space-x-3 border-b border-slate-100 pb-3.5">
+                <div class="bg-red-100 text-red-700 p-2.5 rounded-xl shrink-0">
+                    <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base">Data Peserta Latihan UAS</h3>
+                    <p class="text-xs text-slate-500">SMP Negeri 1 Kalipare • Kelas IX</p>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label for="student-name-input" class="block text-xs font-bold text-slate-700 mb-1.5">Nama Lengkap Siswa</label>
+                    <input type="text" id="student-name-input" placeholder="Ketik nama lengkap Anda..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" onkeydown="if(event.key==='Enter') saveStudentData()">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Pilih Kelas</label>
+                    <div class="grid grid-cols-2 gap-2" id="class-options-grid">
+                        <button type="button" onclick="selectStudentClass('9 Majapahit')" data-class="9 Majapahit" class="class-choice-btn py-2.5 px-3 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all text-center">
+                            9 Majapahit
+                        </button>
+                        <button type="button" onclick="selectStudentClass('9 Mataram')" data-class="9 Mataram" class="class-choice-btn py-2.5 px-3 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all text-center">
+                            9 Mataram
+                        </button>
+                        <button type="button" onclick="selectStudentClass('9 Singhasari')" data-class="9 Singhasari" class="class-choice-btn py-2.5 px-3 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all text-center">
+                            9 Singhasari
+                        </button>
+                        <button type="button" onclick="selectStudentClass('9 Sriwijaya')" data-class="9 Sriwijaya" class="class-choice-btn py-2.5 px-3 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all text-center">
+                            9 Sriwijaya
+                        </button>
+                    </div>
+                </div>
+
+                <p id="student-error-msg" class="hidden text-xs text-rose-600 font-medium bg-rose-50 p-2.5 rounded-xl border border-rose-200">
+                    Harap isi nama lengkap dan pilih kelas Anda terlebih dahulu.
+                </p>
+            </div>
+
+            <div class="pt-2 space-y-2.5">
+                <button onclick="saveStudentData()" class="w-full py-3 px-4 rounded-xl bg-red-700 hover:bg-red-800 text-white text-sm font-bold shadow-sm transition-colors flex items-center justify-center space-x-2">
+                    <span>Mulai Latihan Sekarang</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+                <div class="text-center">
+                    <button type="button" onclick="switchToTeacherFromStart()" class="text-xs font-semibold text-slate-500 hover:text-amber-700 underline">
+                        Saya Guru (Masuk ke Mode Guru)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL LOGIN MODE GURU                      -->
+    <!-- ========================================== -->
+    <div id="teacher-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 space-y-4 fade-in">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                    <div class="bg-amber-100 text-amber-700 p-2 rounded-xl">
+                        <i data-lucide="key-round" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base">Akses Mode Guru</h3>
+                </div>
+                <button onclick="closeTeacherModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Masukkan kode akses guru untuk menampilkan kunci jawaban dan analisis pembahasan pada setiap soal secara langsung.
+            </p>
+            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-xs text-slate-600">
+                <span class="font-semibold text-slate-800">Petunjuk Kode Guru:</span> <code class="bg-white px-1.5 py-0.5 rounded border border-slate-300 font-bold text-red-700">GURU1KALIPARE</code> atau <code class="bg-white px-1.5 py-0.5 rounded border border-slate-300 font-bold text-red-700">12345</code>
+            </div>
+            <div>
+                <input type="password" id="teacher-pin-input" placeholder="Masukkan kode akses..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent" onkeydown="if(event.key==='Enter') verifyTeacherPin()">
+                <p id="teacher-error-msg" class="hidden text-xs text-rose-600 font-medium mt-1.5">Kode akses salah. Silakan coba lagi.</p>
+            </div>
+            <div class="flex space-x-2 pt-1">
+                <button onclick="closeTeacherModal()" class="flex-1 py-2.5 px-4 rounded-xl border border-slate-300 text-slate-700 text-xs font-semibold hover:bg-slate-50">Batal</button>
+                <button onclick="verifyTeacherPin()" class="flex-1 py-2.5 px-4 rounded-xl bg-red-700 text-white text-xs font-semibold hover:bg-red-800 shadow-sm">Aktifkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL NAVIGASI NOMOR SOAL (GRID 1-50)      -->
+    <!-- ========================================== -->
+    <div id="grid-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white rounded-t-3xl sm:rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-slate-200 space-y-4 max-h-[85vh] flex flex-col fade-in">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base">Navigasi 50 Soal HOTS</h3>
+                    <p class="text-xs text-slate-500">Ketuk nomor untuk melompat ke soal tertentu</p>
+                </div>
+                <button onclick="closeGridModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 p-2 rounded-full">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Legenda Warna -->
+            <div class="flex flex-wrap gap-3 text-[11px] font-medium text-slate-600">
+                <div class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded bg-red-700 inline-block"></span><span>Sedang dibuka</span></div>
+                <div class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded bg-emerald-600 inline-block"></span><span>Sudah dijawab</span></div>
+                <div class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded bg-slate-100 border border-slate-300 inline-block"></span><span>Belum dijawab</span></div>
+            </div>
+
+            <!-- Grid Nomor 1 - 50 -->
+            <div id="question-grid-container" class="grid grid-cols-5 sm:grid-cols-10 gap-2 overflow-y-auto py-1 pr-1">
+                <!-- Diisi melalui JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL KONFIRMASI CUSTOM (PENGGANTI ALERT)  -->
+    <!-- ========================================== -->
+    <div id="custom-confirm-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 space-y-4 fade-in">
+            <div class="flex items-center space-x-2.5 text-amber-600">
+                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                <h3 id="confirm-title" class="font-bold text-slate-900 text-base">Konfirmasi</h3>
+            </div>
+            <p id="confirm-message" class="text-xs sm:text-sm text-slate-600 leading-relaxed"></p>
+            <div class="flex space-x-2 pt-2">
+                <button onclick="closeConfirmModal()" class="flex-1 py-2.5 px-4 rounded-xl border border-slate-300 text-slate-700 text-xs font-semibold hover:bg-slate-50">Batal</button>
+                <button id="confirm-action-btn" class="flex-1 py-2.5 px-4 rounded-xl bg-red-700 text-white text-xs font-semibold hover:bg-red-800 shadow-sm">Ya, Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT DATA & LOGIKA APLIKASI          -->
+    <!-- ========================================== -->
+    <script>
+        // ==========================================
+        // 1. DATA RINGKASAN MATERI
+        // ==========================================
+        const materiData = [
+            {
+                title: "1. Dinamika Penerapan Pancasila dari Masa ke Masa",
+                icon: "history",
+                points: [
+                    "<strong>Masa Awal Kemerdekaan (1945–1959):</strong> Terdapat upaya mengganti Pancasila sebagai dasar negara, antara lain Pemberontakan PKI Madiun (1948) dipimpin Muso (ingin mendirikan negara Soviet Indonesia), DI/TII dipimpin Kartosoewirjo (mendirikan Negara Islam Indonesia), RMS (Republik Maluku Selatan), PRRI/Permesta, serta perubahan bentuk negara menjadi RIS (1949) dan penerapan demokrasi liberal pada UUDS 1950.",
+                    "<strong>Masa Orde Lama (1959–1966):</strong> Dikenal sebagai periode Demokrasi Terpimpin pasca-Dekrit Presiden 5 Juli 1959. Terjadi penyimpangan terhadap Pancasila dan UUD 1945, seperti pengangkatan Presiden Soekarno seumur hidup (Tap MPRS No. III/MPRS/1963), pembubaran DPR hasil pemilu, serta konsep Nasakom (Nasionalis, Agama, Komunis) yang memberi ruang berkembangnya PKI hingga peristiwa G30S/PKI 1965.",
+                    "<strong>Masa Orde Baru (1966–1998):</strong> Bertekad melaksanakan Pancasila dan UUD 1945 secara murni dan konsekuen. Berhasil menstabilkan ekonomi dan pembangunan (Repelita), namun dalam praktiknya terjadi penafsiran tunggal Pancasila melalui P4 (Ekaprasetia Pancakarsa), pembatasan kebebasan pers/berpendapat, sentralisasi kekuasaan, serta maraknya KKN yang memicu krisis multidimensi 1998.",
+                    "<strong>Masa Reformasi (1998–Sekarang):</strong> Penerapan Pancasila dihadapkan pada tantangan globalisasi, liberalisme, radikalisme, hoaks, dan degradasi moral. Kebebasan berpendapat dibuka luas (amandemen UUD 1945, pemilu langsung, otonomi daerah), namun menuntut penguatan literasi ideologi agar kebebasan tetap berada dalam koridor nilai ketuhanan, kemanusiaan, dan persatuan."
+                ]
+            },
+            {
+                title: "2. Kedudukan dan Fungsi Pancasila",
+                icon: "compass",
+                points: [
+                    "<strong>Pancasila sebagai Dasar Negara (Philosophische Grondslag):</strong> Menjadi fondasi utama dalam penyelenggaraan pemerintahan negara dan sumber dari segala sumber hukum negara (Pasal 2 UU No. 12 Tahun 2011). Semua peraturan perundang-undangan tidak boleh bertentangan dengan Pancasila.",
+                    "<strong>Pancasila sebagai Pandangan Hidup Bangsa (Weltanschauung):</strong> Kristalisasi nilai-nilai luhur budaya bangsa Indonesia yang menjadi pedoman sikap, tingkah laku, dan pemecahan berbagai persoalan kehidupan bermasyarakat, berbangsa, dan bernegara.",
+                    "<strong>Fungsi Lainnya:</strong> Pancasila sebagai Kepribadian Bangsa (ciri khas pembeda dengan bangsa lain), Perjanjian Luhur Bangsa (disepakati para pendiri negara pada 18 Agustus 1945), Cita-cita dan Tujuan Bangsa (Pembukaan UUD 1945 alinea ke-2 dan ke-4), serta Moral Pembangunan."
+                ]
+            },
+            {
+                title: "3. Pancasila sebagai Ideologi Terbuka",
+                icon: "unlock",
+                points: [
+                    "<strong>Makna Ideologi Terbuka:</strong> Ideologi yang nilai-nilai dasarnya bersifat tetap, namun penjabarannya dapat dikembangkan secara dinamis dan kreatif sesuai perkembangan zaman tanpa mengubah jati dirinya.",
+                    "<strong>Tiga Tataran Nilai Pancasila:</strong><br>• <em>Nilai Dasar:</em> Hakikat kelima sila Pancasila yang bersifat universal, tetap, dan melekat pada kelangsungan hidup negara (tercantum dalam Pembukaan UUD 1945).<br>• <em>Nilai Instrumental:</em> Penjabaran nilai dasar dalam bentuk kebijakan, strategi, organisasi, dan peraturan perundang-undangan (UUD 1945, Tap MPR, UU, PP, dll.) yang dapat disesuaikan dengan perkembangan zaman.<br>• <em>Nilai Praksis:</em> Realisasi nyata nilai-nilai instrumental dalam sikap dan tindakan sehari-hari warga negara.",
+                    "<strong>Tiga Dimensi Ideologi Terbuka (Alfian):</strong><br>• <em>Dimensi Idealitas:</em> Mengandung cita-cita luhur yang memberikan harapan tentang masa depan yang lebih baik.<br>• <em>Dimensi Normatif:</em> Nilai-nilai Pancasila dijabarkan dalam sistem norma/aturan hukum kenegaraan.<br>• <em>Dimensi Realitas:</em> Nilai-nilai Pancasila bersumber dari realitas budaya dan kehidupan nyata masyarakat Indonesia sendiri.",
+                    "<strong>Batas Keterbukaan:</strong> Tidak boleh bertentangan dengan nilai dasar Pancasila, stabilitas nasional yang dinamis, larangan terhadap ideologi Marxisme-Leninisme/Komunisme, serta penciptaan norma baru harus melalui konsensus."
+                ]
+            },
+            {
+                title: "4. Tata Urutan (Hierarki) Peraturan Perundang-undangan",
+                icon: "layers",
+                points: [
+                    "<strong>Dasar Hukum:</strong> Pasal 7 ayat (1) UU No. 12 Tahun 2011 tentang Pembentukan Peraturan Perundang-undangan (sebagaimana diubah dengan UU No. 15 Tahun 2019 dan UU No. 13 Tahun 2022).",
+                    "<strong>Urutan Hierarki dari Tertinggi ke Terendah:</strong><br>1. Undang-Undang Dasar Negara Republik Indonesia Tahun 1945 (UUD NRI 1945)<br>2. Ketetapan Majelis Permusyawaratan Rakyat (Tap MPR)<br>3. Undang-Undang (UU) / Peraturan Pemerintah Pengganti Undang-Undang (Perppu)<br>4. Peraturan Pemerintah (PP)<br>5. Peraturan Presiden (Perpres)<br>6. Peraturan Daerah Provinsi (Perda Provinsi)<br>7. Peraturan Daerah Kabupaten/Kota (Perda Kab/Kota)",
+                    "<strong>Asas Hukum Penting:</strong><br>• <em>Lex Superior Derogat Legi Inferiori:</em> Peraturan yang lebih tinggi mengesampingkan peraturan yang lebih rendah.<br>• <em>Lex Specialis Derogat Legi Generali:</em> Peraturan yang bersifat khusus mengesampingkan peraturan yang bersifat umum (pada tingkat yang sederajat).<br>• <em>Lex Posterior Derogat Legi Priori:</em> Peraturan yang baru mengesampingkan peraturan yang lama (pada tingkat yang sederajat)."
+                ]
+            },
+            {
+                title: "5. Kekuasaan Kehakiman: Mahkamah Konstitusi (MK) & Mahkamah Agung (MA)",
+                icon: "scale",
+                points: [
+                    "<strong>Mahkamah Agung (MA) - Pasal 24A UUD 1945:</strong><br>• Berwenang mengadili pada tingkat kasasi.<br>• Menguji peraturan perundang-undangan di bawah undang-undang terhadap undang-undang (<em>judicial review</em> atas PP, Perpres, Perda terhadap UU).<br>• Membawahi 4 lingkungan peradilan: Peradilan Umum, Peradilan Agama, Peradilan Militer, dan Peradilan Tata Usaha Negara (PTUN).",
+                    "<strong>Mahkamah Konstitusi (MK) - Pasal 24C UUD 1945:</strong><br>• Mengadili pada tingkat pertama dan terakhir yang putusannya bersifat final dan mengikat (<em>final and binding</em>) untuk:<br>  1. Menguji Undang-Undang terhadap UUD NRI Tahun 1945.<br>  2. Memutus sengketa kewenangan lembaga negara yang kewenangannya diberikan oleh UUD 1945.<br>  3. Memutus pembubaran partai politik.<br>  4. Memutus perselisihan tentang hasil pemilihan umum (Pileg, Pilpres, dan Pilkada).<br>• Wajib memberikan putusan atas pendapat DPR mengenai dugaan pelanggaran oleh Presiden dan/atau Wakil Presiden menurut UUD 1945 (proses <em>impeachment</em>)."
+                ]
+            },
+            {
+                title: "6. Proses Pembuatan Produk Hukum Nasional",
+                icon: "file-signature",
+                points: [
+                    "<strong>Pembuatan Undang-Undang (UU):</strong> RUU dapat diusulkan oleh DPR, Presiden, atau DPD (khusus bidang otonomi daerah, hubungan pusat-daerah, dll.). Dibahas bersama oleh DPR dan Presiden untuk mendapat persetujuan bersama. Jika disetujui bersama, Presiden mengesahkan menjadi UU. Apabila dalam 30 hari Presiden tidak menandatangani RUU yang telah disetujui bersama, RUU tersebut sah menjadi UU dan wajib diundangkan (Pasal 20 ayat 5 UUD 1945).",
+                    "<strong>Pembuatan Perppu (Pasal 22 UUD 1945):</strong> Ditetapkan oleh Presiden dalam hal ihwal kegentingan yang memaksa. Harus mendapat persetujuan DPR dalam persidangan berikutnya; jika disetujui menjadi UU, jika ditolak harus dicabut.",
+                    "<strong>Pembuatan Peraturan Daerah (Perda):</strong> Raperda Provinsi/Kabupaten/Kota dapat diusulkan oleh DPRD atau Gubernur/Bupati/Wali Kota, dibahas bersama untuk mendapat persetujuan bersama, lalu ditetapkan oleh Kepala Daerah."
+                ]
+            }
+        ];
+
+        // ==========================================
+        // 2. DATA KISI-KISI SOAL UAS
+        // ==========================================
+        const kisiKisiData = [
+            { no: 1, materi: "Penerapan Pancasila dari Masa ke Masa", indikator: "Menganalisis dinamika tantangan, penyimpangan ideologis, serta upaya penggantian Pancasila pada masa Awal Kemerdekaan, Orde Lama, Orde Baru, dan Reformasi dalam studi kasus historis-kontemporer.", level: "C4 - C5", soal: "1 – 10" },
+            { no: 2, materi: "Fungsi & Kedudukan Pancasila", indikator: "Mengevaluasi perbedaan implementasi Pancasila sebagai Dasar Negara (sumber hukum/kebijakan publik) dengan Pandangan Hidup Bangsa (etika sosial) pada studi kasus nyata.", level: "C4 - C5", soal: "11 – 18" },
+            { no: 3, materi: "Pancasila sebagai Ideologi Terbuka", indikator: "Mengklasifikasikan dan menganalisis keterkaitan Nilai Dasar, Nilai Instrumental, dan Nilai Praksis serta Dimensi Idealitas, Normatif, dan Realitas dalam menghadapi perkembangan IPTEK dan globalisasi.", level: "C4 - C6", soal: "19 – 27" },
+            { no: 4, materi: "Hierarki Peraturan Perundang-undangan", indikator: "Menerapkan asas-asas pembentukan dan keberlakuan peraturan perundang-undangan (Lex Superior, Lex Specialis, Lex Posterior) dalam menyelesaikan konflik norma hukum.", level: "C4 - C5", soal: "28 – 36" },
+            { no: 5, materi: "Kewenangan MK & MA", indikator: "Membandingkan dan menentukan kompetensi absolut Mahkamah Konstitusi (MK) dan Mahkamah Agung (MA) dalam pengujian norma hukum (judicial review) serta sengketa ketatanegaraan.", level: "C4 - C5", soal: "37 – 43" },
+            { no: 6, materi: "Proses Pembuatan Produk Hukum", indikator: "Menganalisis mekanisme legislasi nasional (RUU, Perppu, Perda), hak inisiatif lembaga negara, serta akibat hukum apabila Presiden tidak mengesahkan RUU yang telah disetujui bersama.", level: "C4 - C6", soal: "44 – 50" }
+        ];
+
+        // ==========================================
+        // 3. BANK 50 SOAL HOTS (JAWABAN SULIT & PENGECUH PANJANG)
+        // Catatan: Jawaban benar tersebar acak di A, B, C, D.
+        // Opsi yang panjang BELUM TENTU jawaban benar!
+        // ==========================================
+        const questionsData = [
+            // --- TOPIK 1: PENERAPAN PANCASILA DARI MASA KE MASA (1 - 10) ---
+            {
+                id: 1,
+                topic: "Penerapan Pancasila dari Masa ke Masa",
+                question: "Pada periode 1950–1959, Indonesia menerapkan sistem demokrasi liberal berdasarkan UUDS 1950 yang mengakibatkan kabinet jatuh bangun dalam hitungan bulan. Meskipun secara formal Pancasila tetap tercantum dalam mukadimah konstitusi, praktik ketatanegaraan saat itu dinilai menyimpang dari hakikat sila keempat Pancasila karena...",
+                options: [
+                    "Mekanisme pengambilan keputusan di Konstituante dan parlemen lebih mengutamakan voting mayoritas mutlak berbasis kepentingan partai politik sempit daripada musyawarah untuk mufakat yang berorientasi pada persatuan nasional",
+                    "Presiden memiliki kekuasaan eksekutif yang terlalu dominan sehingga membubarkan parlemen hasil pemilihan umum pertama tahun 1955 secara sepihak tanpa persetujuan Mahkamah Agung dan pimpinan partai pemenang pemilu",
+                    "Sistem multipartai ekstrem pada masa itu melarang keberadaan partai berideologi agama dan sosialis sehingga aspirasi masyarakat daerah tidak terwakili di tingkat pusat maupun dalam sidang penyusunan undang-undang dasar",
+                    "Perdana menteri bertanggung jawab langsung kepada Presiden sehingga fungsi pengawasan legislatif terhadap jalannya pemerintahan menjadi lumpuh total akibat intervensi militer dalam kabinet"
+                ],
+                correct: 0, // A (Cukup panjang, namun opsi B, C, D juga dibuat panjang dan tampak meyakinkan secara historis)
+                explanation: "Pada masa Demokrasi Liberal (1950–1959), sistem parlementer dengan multipartai ekstrem menyebabkan parlemen dan Konstituante terjebak pada kepentingan golongan/partai dan mekanisme voting tanpa mufakat, yang bertentangan dengan hikmat kebijaksanaan dalam permusyawaratan (Sila ke-4). Opsi B adalah peristiwa Orde Lama (1960), dan D keliru karena Perdana Menteri bertanggung jawab kepada parlemen."
+            },
+            {
+                id: 2,
+                topic: "Penerapan Pancasila dari Masa ke Masa",
+                question: "Perhatikan pernyataan berikut:<br>1) Pemberontakan DI/TII di Jawa Barat oleh Kartosoewirjo<br>2) Pemberontakan PKI Madiun tahun 1948 oleh Muso<br>3) Gerakan Angkatan Perang Ratu Adil (APRA) oleh Westerling<br>4) Pemberontakan PRRI/Permesta di Sumatra dan Sulawesi<br><br>Berdasarkan analisis historis-ideologis, perbedaan mendasar antara kelompok gerakan (1 & 2) dengan kelompok gerakan (3 & 4) dalam kaitannya dengan eksistensi Pancasila adalah...",
+                options: [
+                    "Kelompok (1 & 2) berupaya mengganti Pancasila sebagai dasar negara dengan ideologi lain yang bertentangan, sedangkan kelompok (3 & 4) dipicu oleh persoalan bentuk negara federal serta ketimpangan hubungan pusat dan daerah",
+                    "Kelompok (1 & 2) mendapat dukungan penuh dari kekuatan militer asing untuk memisahkan diri dari NKRI, sedangkan kelompok (3 & 4) murni bertujuan mengganti sistem ekonomi kerakyatan menjadi kapitalisme liberal",
+                    "Kelompok (1 & 2) muncul setelah Dekrit Presiden 5 Juli 1959 sebagai reaksi atas Demokrasi Terpimpin, sedangkan kelompok (3 & 4) terjadi sebelum pengakuan kedaulatan Belanda pada Konferensi Meja Bundar",
+                    "Kelompok (1 & 2) berjuang mempertahankan bentuk negara kesatuan yang bercorak sentralistik di Pulau Jawa, sedangkan kelompok (3 & 4) berupaya mendirikan negara teokrasi berdasarkan hukum agama tertentu"
+                ],
+                correct: 0, // A
+                explanation: "PKI Madiun 1948 (ideologi komunis) dan DI/TII (negara Islam/teokrasi) bertujuan mengganti dasar negara Pancasila. Sebaliknya, APRA berkaitan dengan mempertahankan bentuk negara federal (Pasundan/RIS) dan kepentingan tentara KNIL, sedangkan PRRI/Permesta dipicu ketidakpuasan atas ketimpangan pembangunan dan otonomi daerah."
+            },
+            {
+                id: 3,
+                topic: "Penerapan Pancasila dari Masa ke Masa",
+                question: "Pada masa Orde Lama (1959–1966), dikeluarkan Ketetapan MPRS No. III/MPRS/1963 yang menetapkan Ir. Soekarno sebagai Presiden Seumur Hidup. Jika ditinjau dari prinsip kedaulatan rakyat dalam Pancasila dan UUD 1945, kebijakan tersebut merupakan bentuk penyimpangan serius karena...",
+                options: [
+                    "Membatasi kewenangan Dewan Perwakilan Rakyat Gotong Royong (DPR-GR) dalam mengajukan rancangan anggaran pendapatan dan belanja negara setiap tahun anggaran berjalan",
+                    "Menghilangkan mekanisme sirkulasi kekuasaan secara periodik yang menjadi syarat mutlak negara demokrasi konstitusional",
+                    "Mengalihkan seluruh kekuasaan yudikatif dan legislatif ke tangan Dewan Pertimbangan Agung Sementara (DPAS) yang dipimpin langsung oleh wakil perdana menteri",
+                    "Menghapuskan kedudukan Wakil Presiden dalam struktur ketatanegaraan Indonesia sehingga tidak ada pejabat pengganti apabila presiden berhalangan tetap"
+                ],
+                correct: 1, // B (Pendek & tepat, sementara opsi A, C, D panjang sebagai pengecoh)
+                explanation: "Jawaban yang paling tepat dan mendasar adalah B. Pengangkatan presiden seumur hidup melanggar Pasal 7 UUD 1945 (masa jabatan presiden 5 tahun dan dapat dipilih kembali) serta meniadakan sirkulasi kekuasaan secara demokratis."
+            },
+            {
+                id: 4,
+                topic: "Penerapan Pancasila dari Masa ke Masa",
+                question: "Pemerintah Orde Baru bertekad melaksanakan Pancasila dan UUD 1945 secara murni dan konsekuen melalui program Pedoman Penghayatan dan Pengamalan Pancasila (P4). Namun, menjelang akhir kekuasaannya pada tahun 1998, kebijakan tersebut justru menuai kritik tajam dari kalangan akademisi dan aktivis demokrasi karena...",
+                options: [
+                    "Materi penataran P4 mewajibkan seluruh organisasi kemasyarakatan dan partai politik untuk melebur menjadi satu partai tunggal guna menjaga stabilitas keamanan nasional jangka panjang",
+                    "Pancasila dijadikan instrumen legitimasi kekuasaan dengan penafsiran tunggal oleh negara sehingga setiap kritik terhadap kebijakan pemerintah dianggap sebagai tindakan antipancasila",
+                    "Program P4 hanya diajarkan di lingkungan perguruan tinggi negeri dan instansi militer sehingga masyarakat pedesaan tidak memahami nilai-nilai luhur kebangsaan Indonesia",
+                    "Pelaksanaan penataran P4 mengakibatkan hilangnya identitas budaya lokal di berbagai provinsi karena seluruh kurikulum pendidikan agama dihapuskan oleh pemerintah pusat"
+                ],
+                correct: 1, // B
+                explanation: "Pada masa Orde Baru, negara memonopoli tafsir atas Pancasila (asas tunggal dan indoktrinasi P4). Akibatnya, Pancasila bergeser menjadi alat mempertahankan kekuasaan (status quo), di mana pihak yang mengkritik pemerintah kerap distigma sebagai 'tidak Pancasilais'."
+            },
+            {
+                id: 5,
+                topic: "Penerapan Pancasila dari Masa ke Masa",
+                question: "Di era Reformasi saat ini, ancaman terhadap Pancasila tidak lagi berbentuk pemberontakan fisik bersenjata seperti pada tahun 1948–1965, melainkan infiltrasi ideologi transnasional melalui ruang digital. Bentuk ancaman yang paling relevan terhadap sila ketiga Pancasila di kalangan pelajar SMP saat ini adalah...",
+                options: [
+                    "Meningkatnya partisipasi pelajar dalam kampanye kepedulian lingkungan global yang diinisiasi oleh organisasi non-pemerintah internasional melalui media sosial",
+                    "Maraknya algoritma media sosial yang menciptakan ruang gema (echo chamber) sehingga memicu polarisasi, ujaran kebencian berbasis SARA, dan merendahkan budaya lokal demi tren global",
+                    "Penggunaan aplikasi pembelajaran daring berbasis kecerdasan buatan yang memudahkan siswa mengakses literatur sejarah perjuangan bangsa dari berbagai sumber terbuka",
+                    "Adanya pertukaran pelajar antarprovinsi secara virtual yang mendorong siswa mempelajari bahasa daerah lain sebagai bagian dari proyek penguatan profil pelajar Pancasila"
+                ],
+                correct: 1, // B
+                explanation: "Algoritma media sosial dapat mengurung pengguna dalam informasi sepihak (echo chamber) yang mempertajam prasangka SARA, intoleransi, dan menggerus rasa persatuan serta kebanggaan terhadap budaya nasional (ancaman terhadap Sila ke-3)."
+            },
+            {
+                id: 6,
+                topic: "Penerapan Pancasila dari Masa ke Masa",
+                question: "Konsep Nasakom (Nasionalis, Agama, Komunis) yang digagas pada masa Demokrasi Terpimpin secara sosiologis bertujuan mempersatukan berbagai aliran politik di Indonesia. Namun, secara filosofis-ideologis konsep tersebut bertentangan dengan Pancasila sebab...",
+                options: [
+                    "Menggabungkan pandangan hidup yang mengakui Tuhan Yang Maha Esa dengan paham materialisme-ateisme yang menolak eksistensi Tuhan",
+                    "Memberikan hak istimewa kepada golongan nasionalis sekuler untuk menduduki seluruh jabatan menteri dalam Kabinet Dwikora tanpa melalui uji kelayakan",
+                    "Menghapuskan kebebasan beribadah bagi pemeluk agama minoritas di wilayah Indonesia bagian timur demi kepentingan konsolidasi politik luar negeri",
+                    "Mengubah rumusan sila pertama Pancasila dalam Pembukaan UUD 1945 menjadi Ketuhanan yang berkebudayaan sesuai dengan manifesto politik tahun 1959"
+                ],
+                correct: 0, // A (Singkat dan padat)
+                explanation: "Ideologi Komunisme berlandaskan materialisme historis/dialektis yang bersifat ateis (anti-Tuhan), sehingga menyatukannya ke dalam dasar negara jelas bertentangan secara diametral dengan Sila Pertama: Ketuhanan Yang Maha Esa."
+            },
+            {
+                id: 7,
+                topic: "Penerapan Pancasila dari Masa ke Masa",
+                question: "Perhatikan perbandingan kondisi ketatanegaraan berikut:<br>• <strong>Era Orde Baru:</strong> Kebebasan pers sangat dibatasi melalui mekanisme Surat Izin Usaha Penerbitan Pers (SIUPP) yang sewaktu-waktu dapat dicabut pemerintah.<br>• <strong>Era Reformasi:</strong> Kebebasan pers dijamin penuh oleh UU No. 40 Tahun 1999 tanpa mekanisme pembredelan.<br><br>Jika dikaitkan dengan penerapan nilai-nilai Pancasila, tantangan utama yang muncul pada Era Reformasi akibat perubahan kebijakan tersebut adalah...",
+                options: [
+                    "Pemerintah kehilangan kewenangan konstitusional untuk menindak pelaku tindak pidana pencemaran nama baik dan penipuan daring melalui lembaga peradilan umum",
+                    "Sebagian masyarakat dan media digital menyalahgunakan kebebasan berekspresi untuk menyebarkan disinformasi (hoaks) dan fitnah tanpa tanggung jawab moral maupun etika sosial",
+                    "Perusahaan media cetak konvensional mendominasi opini publik nasional sehingga masyarakat pedesaan tidak mendapatkan akses informasi mengenai kebijakan pemerintah daerah",
+                    "Dewan Pers memiliki kekuasaan absolut untuk menjatuhkan sanksi pidana penjara secara langsung kepada jurnalis yang memberitakan kritik terhadap lembaga tinggi negara"
+                ],
+                correct: 1, // B
+                explanation: "Kebebasan di era Reformasi adalah kebebasan yang bertanggung jawab sesuai nilai Pancasila. Tantangannya adalah penyalahgunaan kebebasan tersebut berupa hoaks, post-truth, dan fitnah yang mengabaikan etika kemanusiaan dan persatuan."
+            },
+            {
+                id: 8,
+                topic: "Penerapan Pancasila dari Masa ke Masa",
+                question: "Dekrit Presiden 5 Juli 1959 memuat tiga ketentuan pokok, salah satunya adalah kembali berlakunya UUD 1945 dan tidak berlakunya UUDS 1950. Dari sudut pandang penerapan Pancasila, dikeluarkannya dekrit tersebut memiliki sisi positif yaitu...",
+                options: [
+                    "Menyelamatkan dasar negara Pancasila dari potensi perubahan ideologi akibat kebuntuan sidang Badan Konstituante yang berlarut-larut",
+                    "Menjamin terlaksananya pemilihan umum yang jujur dan adil setiap lima tahun sekali secara konsisten sejak tahun 1959 hingga tahun 1965",
+                    "Memperkuat prinsip pemisahan kekuasaan (trias politica) antara lembaga eksekutif, legislatif, dan yudikatif secara independen tanpa campur tangan presiden",
+                    "Mendorong tumbuhnya otonomi daerah yang luas di seluruh provinsi sehingga tidak ada lagi gejolak ketidakpuasan dari pemerintah daerah terhadap pusat"
+                ],
+                correct: 0, // A
+                explanation: "Badan Konstituante hasil Pemilu 1955 gagal menyusun UUD baru dan terbelah tajam mengenai dasar negara. Dekrit Presiden 5 Juli 1959 mengembalikan UUD 1945 beserta Pembukaannya, sehingga eksistensi Pancasila sebagai dasar negara terselamatkan."
+            },
+            {
+                id: 9,
+                topic: "Penerapan Pancasila dari Masa ke Masa",
+                question: "Pada masa Orde Baru, pembangunan ekonomi berhasil meningkatkan pendapatan per kapita dan mewujudkan swasembada beras pada tahun 1984. Namun, kegagalan fundamental Orde Baru dalam mewujudkan sila kelima Pancasila (Keadilan Sosial bagi Seluruh Rakyat Indonesia) terletak pada...",
+                options: [
+                    "Penolakan pemerintah terhadap seluruh bentuk investasi asing dan pinjaman luar negeri sehingga pembangunan infrastruktur hanya mengandalkan dana desa",
+                    "Penerapan kebijakan transmigrasi massal dari luar Pulau Jawa menuju Pulau Jawa yang menyebabkan kepadatan penduduk ekstrem di wilayah perkotaan",
+                    "Pembangunan yang bersifat sentralistik dan konglomerasi, sehingga hasil pertumbuhan ekonomi hanya dinikmati segelintir elite sementara kesenjangan pusat-daerah melebar",
+                    "Pembubaran seluruh koperasi unit desa (KUD) dan badan usaha milik negara (BUMN) strategis demi menerapkan sistem ekonomi pasar bebas secara menyeluruh"
+                ],
+                correct: 2, // C
+                explanation: "Pertumbuhan ekonomi Orde Baru bertumpu pada stabilitas dan konglomerasi (trickle-down effect) yang tersentralisasi di pusat, menimbulkan kesenjangan tajam antara Jawa dan luar Jawa serta suburnya praktik KKN."
+            },
+            {
+                id: 10,
+                topic: "Penerapan Pancasila dari Masa ke Masa",
+                question: "Sebagai pelajar di SMP Negeri 1 Kalipare yang hidup di era globalisasi, sikap manakah yang paling mencerminkan aktualisasi nilai Pancasila dalam menghadapi masuknya budaya populer asing (seperti tren gaya hidup dan hiburan digital)?",
+                options: [
+                    "Menolak seluruh produk teknologi informasi dan konten hiburan dari luar negeri demi menjaga kemurnian adat istiadat lokal di wilayah Kabupaten Malang",
+                    "Mengadopsi seluruh tren gaya hidup modern negara maju agar tidak dianggap tertinggal zaman oleh komunitas pergaulan remaja di media sosial",
+                    "Menjadikan nilai-nilai Pancasila sebagai filter kritis untuk menyerap unsur positif budaya asing yang mendukung kemajuan ilmu pengetahuan tanpa kehilangan jati diri bangsa",
+                    "Membatasi interaksi sosial hanya dengan teman sebaya yang memiliki latar belakang budaya, bahasa daerah, dan kebiasaan yang sama di lingkungan sekolah"
+                ],
+                correct: 2, // C
+                explanation: "Pancasila berfungsi sebagai filter/penyaring budaya asing: terbuka terhadap kemajuan IPTEK dan hal positif dari luar, namun menolak hal-hal yang bertentangan dengan kepribadian dan moral bangsa."
+            },
+
+            // --- TOPIK 2: FUNGSI DAN KEDUDUKAN PANCASILA (11 - 18) ---
+            {
+                id: 11,
+                topic: "Fungsi & Kedudukan Pancasila",
+                question: "Perhatikan dua peristiwa berikut:<br>• <strong>Peristiwa X:</strong> DPRD Kabupaten Malang merancang Peraturan Daerah tentang perlindungan petani dan ketahanan pangan lokal dengan berpedoman pada asas keadilan sosial dan kekeluargaan.<br>• <strong>Peristiwa Y:</strong> Warga Desa Kalipare bergotong royong memperbaiki saluran irigasi sawah secara sukarela tanpa membedakan status sosial maupun latar belakang agama.<br><br>Analisis yang paling tepat mengenai kedudukan Pancasila dalam kedua peristiwa tersebut adalah...",
+                options: [
+                    "Peristiwa X menunjukkan Pancasila sebagai pandangan hidup bangsa, sedangkan Peristiwa Y menunjukkan Pancasila sebagai perjanjian luhur pendiri bangsa",
+                    "Peristiwa X menunjukkan Pancasila sebagai dasar negara, sedangkan Peristiwa Y menunjukkan Pancasila sebagai pandangan hidup bangsa",
+                    "Peristiwa X dan Y sama-sama menunjukkan fungsi Pancasila sebagai sumber hukum formal yang memiliki sanksi pidana bagi pelanggarnya",
+                    "Peristiwa X menunjukkan Pancasila sebagai kepribadian bangsa, sedangkan Peristiwa Y menunjukkan Pancasila sebagai ideologi tertutup negara"
+                ],
+                correct: 1, // B (Pendek dan tepat dibanding A, C, D)
+                explanation: "Peristiwa X berkaitan dengan pembentukan produk hukum/penyelenggaraan negara (Pancasila sebagai Dasar Negara). Peristiwa Y berkaitan dengan pedoman sikap dan perilaku masyarakat dalam kehidupan sehari-hari (Pancasila sebagai Pandangan Hidup Bangsa)."
+            },
+            {
+                id: 12,
+                topic: "Fungsi & Kedudukan Pancasila",
+                question: "Ir. Soekarno menyebut Pancasila sebagai <em>Philosophische Grondslag</em> bagi Indonesia merdeka. Konsekuensi yuridis dari kedudukan Pancasila sebagai <em>Philosophische Grondslag</em> dalam sistem hukum nasional Indonesia adalah...",
+                options: [
+                    "Setiap warga negara wajib menghafal teks Pembukaan UUD 1945 sebagai syarat administratif untuk memperoleh pelayanan publik dari pemerintah daerah",
+                    "Pancasila menjadi norma dasar tertinggi yang menjiwai, mengarahkan, dan menjadi batu uji validitas bagi seluruh peraturan perundang-undangan di bawahnya",
+                    "Pancasila dapat diubah sewaktu-waktu melalui referendum nasional apabila mayoritas anggota parlemen menghendaki perubahan bentuk pemerintahan",
+                    "Seluruh aturan adat istiadat daerah di Indonesia harus dihapuskan dan diganti dengan hukum pidana nasional yang terkodifikasi secara tunggal"
+                ],
+                correct: 1, // B
+                explanation: "Philosophische Grondslag berarti dasar filsafat negara. Secara yuridis, ini menempatkan Pancasila sebagai sumber dari segala sumber hukum negara (Grundnorm/Staatsfundamentalnorm) sehingga seluruh regulasi wajib selaras dengannya."
+            },
+            {
+                id: 13,
+                topic: "Fungsi & Kedudukan Pancasila",
+                question: "Apabila sebuah negara merdeka tidak memiliki pandangan hidup bangsa (<em>Weltanschauung</em>) yang kuat dan mengakar pada budayanya sendiri, dampak sosiologis jangka panjang yang paling mungkin terjadi adalah...",
+                options: [
+                    "Negara tersebut akan mengalami surplus anggaran pendapatan belanja negara karena tidak perlu mengalokasikan dana untuk pendidikan karakter bangsa",
+                    "Masyarakat akan mudah terombang-ambing oleh konflik horizontal dan krisis identitas ketika berhadapan dengan benturan nilai-nilai global",
+                    "Lembaga legislatif dapat menyusun undang-undang dengan lebih cepat karena tidak terikat oleh nilai-nilai filosofis maupun kearifan lokal masyarakat",
+                    "Sistem pertahanan dan keamanan negara akan menjadi sangat kuat karena seluruh warga negara memiliki pola pikir individualistis yang rasional"
+                ],
+                correct: 1, // B
+                explanation: "Pandangan hidup bangsa berfungsi sebagai pedoman arah dan pemecah masalah bangsa. Tanpa pandangan hidup yang kokoh, masyarakat akan kehilangan pegangan moral, mudah terpecah belah, dan mengalami krisis jati diri."
+            },
+            {
+                id: 14,
+                topic: "Fungsi & Kedudukan Pancasila",
+                question: "Pancasila disebut sebagai 'Perjanjian Luhur Bangsa Indonesia'. Makna historis-konstitusional yang terkandung dalam sebutan tersebut adalah...",
+                options: [
+                    "Pancasila merupakan hasil kesepakatan bilateral antara pemerintah Republik Indonesia dengan Kerajaan Belanda pada saat penyerahan kedaulatan tahun 1949",
+                    "Pancasila disepakati oleh para pendiri negara (PPKI) sebagai wakil seluruh rakyat Indonesia pada 18 Agustus 1945 untuk dipertahankan selamanya",
+                    "Pancasila dapat dinegosiasikan ulang oleh setiap generasi pemimpin nasional melalui ketetapan Majelis Permusyawaratan Rakyat setiap dua puluh tahun sekali",
+                    "Pancasila merupakan kontrak sosial tertulis yang ditandatangani oleh seluruh kepala daerah sebelum Proklamasi Kemerdekaan Indonesia dibacakan"
+                ],
+                correct: 1, // B
+                explanation: "Pancasila disepakati secara final oleh para pendiri bangsa (PPKI yang merepresentasikan seluruh elemen rakyat Indonesia) pada tanggal 18 Agustus 1945 bersamaan dengan pengesahan UUD 1945."
+            },
+            {
+                id: 15,
+                topic: "Fungsi & Kedudukan Pancasila",
+                question: "Dalam sidang PPKI tanggal 18 Agustus 1945, terjadi perubahan rumusan sila pertama dari Piagam Jakarta ('Ketuhanan, dengan kewajiban menjalankan syariat Islam bagi pemeluk-pemeluknya') menjadi 'Ketuhanan Yang Maha Esa'. Sikap kenegarawanan para tokoh pendiri bangsa dalam peristiwa ini mencerminkan fungsi Pancasila sebagai...",
+                options: [
+                    "Instrumen kekuasaan mayoritas untuk memaksakan kehendak politik demi terciptanya stabilitas keamanan negara pasca-proklamasi kemerdekaan",
+                    "Pemersatu bangsa yang mengutamakan keutuhan dan integrasi nasional di atas kepentingan golongan maupun kelompok tertentu",
+                    "Pedoman teknis penyelenggaraan administrasi pemerintahan daerah di wilayah Indonesia bagian timur agar tidak memisahkan diri",
+                    "Landasan hukum tertulis untuk mengatur tata cara peribadatan seluruh umat beragama di bawah pengawasan kementerian negara"
+                ],
+                correct: 1, // B
+                explanation: "Perubahan tujuh kata dalam Piagam Jakarta demi menjaga keutuhan bangsa Indonesia yang majemuk (khususnya aspirasi masyarakat Indonesia bagian timur) merupakan bukti nyata Pancasila sebagai pemersatu bangsa."
+            },
+            {
+                id: 16,
+                topic: "Fungsi & Kedudukan Pancasila",
+                question: "Perhatikan pernyataan berikut:<br>'Pancasila memberikan corak khas kepada bangsa Indonesia dan tidak dapat dipisahkan dari bangsa Indonesia, serta menjadi ciri pembeda antara bangsa Indonesia dengan bangsa-bangsa lain di dunia.'<br><br>Pernyataan tersebut menjelaskan kedudukan Pancasila sebagai...",
+                options: [
+                    "Kepribadian bangsa Indonesia",
+                    "Sumber tertib hukum nasional",
+                    "Paradigma pembangunan fisik",
+                    "Cita-cita hukum konstitusional"
+                ],
+                correct: 0, // A (Singkat, jelas)
+                explanation: "Ciri khas yang membedakan mentalitas, karakter, dan perilaku bangsa Indonesia dengan bangsa lain adalah definisi dari Pancasila sebagai Kepribadian Bangsa Indonesia."
+            },
+            {
+                id: 17,
+                topic: "Fungsi & Kedudukan Pancasila",
+                question: "Dalam Pembukaan UUD NRI Tahun 1945 alinea keempat, rumusan Pancasila tercantum secara sah dan konstitusional. Hubungan antara Pembukaan UUD 1945 dengan Pancasila sebagai dasar negara bersifat...",
+                options: [
+                    "Sementara dan dapat diubah oleh MPR melalui mekanisme pasal 37 UUD 1945 apabila situasi politik negara menghendaki perubahan bentuk negara",
+                    "Kausal-organis, artinya Pembukaan UUD 1945 memuat pokok-pokok pikiran Pancasila dan mengubah Pembukaan berarti membubarkan negara proklamasi 1945",
+                    "Koordinatif-sejajar, artinya pasal-pasal dalam batang tubuh UUD 1945 memiliki kedudukan hukum yang lebih tinggi daripada nilai-nilai dalam Pembukaan",
+                    "Administratif-teknis, artinya Pancasila hanya berfungsi sebagai pengantar sejarah sebelum memasuki aturan hukum yang mengikat dalam pasal-pasal UUD 1945"
+                ],
+                correct: 1, // B
+                explanation: "Secara ilmu hukum tata negara (Notonagoro), Pembukaan UUD 1945 memiliki hubungan kausal-organis dengan Batang Tubuh dan menjadi Staatsfundamentalnorm (pokok kaidah negara yang fundamental) karena di dalamnya terkandung Pancasila. Mengubah Pembukaan sama dengan membubarkan NKRI."
+            },
+            {
+                id: 18,
+                topic: "Fungsi & Kedudukan Pancasila",
+                question: "Pancasila berfungsi sebagai 'Moral Pembangunan Nasional'. Implementasi yang paling tepat dari fungsi tersebut dalam kebijakan pembangunan infrastruktur di daerah adalah...",
+                options: [
+                    "Memprioritaskan pembangunan pusat perbelanjaan modern di kawasan perkotaan agar pendapatan asli daerah meningkat secara eksponensial",
+                    "Melaksanakan pembangunan jalan dan jembatan dengan memperhatikan kelestarian lingkungan hidup, hak-hak masyarakat adat, serta pemerataan akses ekonomi",
+                    "Menyerahkan seluruh proyek pembangunan fasilitas umum kepada investor swasta asing tanpa melibatkan pengawasan dari masyarakat setempat",
+                    "Mengalokasikan seluruh anggaran pembangunan daerah untuk subsidi konsumsi jangka pendek agar daya beli masyarakat meningkat menjelang pemilihan umum"
+                ],
+                correct: 1, // B
+                explanation: "Pembangunan yang bermoral Pancasila tidak hanya mengejar pertumbuhan ekonomi, tetapi berorientasi pada kemanusiaan, kelestarian alam (tanggung jawab kepada Tuhan), dan keadilan sosial bagi masyarakat lokal."
+            },
+
+            // --- TOPIK 3: PANCASILA SEBAGAI IDEOLOGI TERBUKA (19 - 27) ---
+            {
+                id: 19,
+                topic: "Pancasila sebagai Ideologi Terbuka",
+                question: "Perhatikan tiga pernyataan berikut:<br>I. Hakikat nilai kemanusiaan yang adil dan beradab melarang segala bentuk perbudakan dan penindasan.<br>II. Pemerintah menerbitkan Undang-Undang Tindak Pidana Perdagangan Orang (TPPO) dan membentuk satuan tugas perlindungan pekerja migran.<br>III. Warga sekolah menggalang donasi kemanusiaan dan menolak praktik perundungan (bullying) di lingkungan SMP Negeri 1 Kalipare.<br><br>Urutan tingkatan nilai Pancasila yang sesuai dengan pernyataan I, II, dan III secara berturut-turut adalah...",
+                options: [
+                    "Nilai Instrumental – Nilai Praksis – Nilai Dasar",
+                    "Nilai Dasar – Nilai Praksis – Nilai Instrumental",
+                    "Nilai Dasar – Nilai Instrumental – Nilai Praksis",
+                    "Nilai Praksis – Nilai Dasar – Nilai Instrumental"
+                ],
+                correct: 2, // C (Opsi pendek)
+                explanation: "I adalah Nilai Dasar (nilai universal sila ke-2 yang tetap). II adalah Nilai Instrumental (penjabaran nilai dasar dalam bentuk UU/kebijakan pemerintah). III adalah Nilai Praksis (penerapan nyata dalam perilaku sehari-hari)."
+            },
+            {
+                id: 20,
+                topic: "Pancasila sebagai Ideologi Terbuka",
+                question: "Perbedaan fundamental antara Pancasila sebagai ideologi terbuka dengan ideologi tertutup (seperti Marxisme-Leninisme) terletak pada sumber dan cara nilai-nilainya dijalankan dalam masyarakat, yaitu...",
+                options: [
+                    "Ideologi terbuka menuntut ketaatan mutlak masyarakat terhadap doktrin partai tunggal negara, sedangkan ideologi tertutup membebaskan individu tanpa aturan hukum",
+                    "Ideologi terbuka digali dari kekayaan rohani, moral, dan budaya masyarakat itu sendiri serta bersifat dinamis, sedangkan ideologi tertutup dipaksakan oleh sekelompok penguasa secara dogmatis",
+                    "Ideologi terbuka selalu berubah nilai-nilai dasarnya setiap kali terjadi pergantian kepemimpinan nasional, sedangkan ideologi tertutup mempertahankan konstitusi selamanya",
+                    "Ideologi terbuka hanya berlaku bagi negara-negara berkembang di kawasan Asia Tenggara, sedangkan ideologi tertutup diterapkan oleh seluruh negara maju di Eropa"
+                ],
+                correct: 1, // B
+                explanation: "Ideologi terbuka (Pancasila) bersumber dari nilai-nilai masyarakat sendiri dan mampu berinteraksi dengan perkembangan zaman. Sebaliknya, ideologi tertutup merupakan cita-cita kelompok tertentu yang dipaksakan secara totaliter dan dogmatis kepada masyarakat."
+            },
+            {
+                id: 21,
+                topic: "Pancasila sebagai Ideologi Terbuka",
+                question: "Menurut pakar ilmu politik Dr. Alfian, kekuatan suatu ideologi terbuka bergantung pada kualitas tiga dimensi yang dimilikinya, yaitu dimensi idealitas, normatif, dan realitas. Suatu ideologi akan kehilangan relevansinya dan dianggap sekadar utopi (khayalan kosong) apabila...",
+                options: [
+                    "Dimensi idealitasnya terlalu tinggi namun tidak dijabarkan ke dalam dimensi normatif dan tidak berakar pada dimensi realitas kehidupan masyarakat",
+                    "Dimensi realitasnya terlalu kuat mendominasi sehingga seluruh peraturan perundang-undangan disesuaikan dengan adat istiadat daerah setempat",
+                    "Dimensi normatifnya diwujudkan dalam bentuk undang-undang organik yang mengatur hak asasi manusia secara rinci dan mengikat seluruh warga negara",
+                    "Ketiga dimensi tersebut berjalan secara seimbang dalam proses pembentukan kebijakan publik maupun dalam perilaku sosial masyarakat sehari-hari"
+                ],
+                correct: 0, // A
+                explanation: "Jika hanya memiliki cita-cita luhur (idealitas) tanpa aturan hukum yang operasional (normatif) dan tidak berakar pada kenyataan hidup masyarakat (realitas), maka ideologi tersebut hanya akan menjadi khayalan (utopi) belaka."
+            },
+            {
+                id: 22,
+                topic: "Pancasila sebagai Ideologi Terbuka",
+                question: "Pada tahun 1999 hingga 2002, MPR melakukan empat kali perubahan (amandemen) terhadap UUD NRI Tahun 1945, seperti pembatasan masa jabatan Presiden maksimal dua periode dan pemilihan Presiden secara langsung oleh rakyat. Dari perspektif Pancasila sebagai ideologi terbuka, perubahan tersebut membuktikan bahwa...",
+                options: [
+                    "Nilai dasar sila keempat Pancasila telah mengalami perubahan substansial mengikuti sistem demokrasi liberal negara-negara Barat",
+                    "Nilai instrumental Pancasila bersifat dinamis dan dapat direformulasi untuk menyesuaikan diri dengan tuntutan demokrasi tanpa mengubah nilai dasarnya",
+                    "Pembukaan UUD NRI Tahun 1945 memiliki kedudukan hukum yang fleksibel sehingga dapat diamandemen sewaktu-waktu oleh Majelis Permusyawaratan Rakyat",
+                    "Pancasila sebagai ideologi terbuka tidak memiliki batas keterbukaan sehingga seluruh sistem ketatanegaraan dapat diubah secara radikal"
+                ],
+                correct: 1, // B
+                explanation: "UUD 1945 (batang tubuh/pasal-pasal) merupakan wujud Nilai Instrumental. Amandemen UUD 1945 membuktikan bahwa nilai instrumental dapat dikembangkan secara dinamis sesuai tuntutan zaman, sementara Nilai Dasar (dalam Pembukaan UUD 1945) tetap dipertahankan."
+            },
+            {
+                id: 23,
+                topic: "Pancasila sebagai Ideologi Terbuka",
+                question: "Keterbukaan ideologi Pancasila bukanlah keterbukaan yang tanpa batas (bebas nilai). Salah satu rambu atau batas keterbukaan ideologi Pancasila yang mutlak harus dijaga adalah...",
+                options: [
+                    "Larangan terhadap masuknya investasi teknologi informasi asing ke dalam sektor pendidikan dan pelayanan publik di tingkat daerah",
+                    "Penciptaan norma baru harus melalui konsensus nasional dan tidak boleh bertentangan dengan nilai-nilai dasar ketuhanan, kemanusiaan, persatuan, kerakyatan, dan keadilan",
+                    "Kewajiban bagi seluruh partai politik untuk memiliki struktur kepengurusan yang seragam hingga ke tingkat rukun tetangga di seluruh wilayah Indonesia",
+                    "Penolakan terhadap segala bentuk pembaruan hukum nasional yang berasal dari konvensi internasional mengenai perlindungan hak asasi manusia"
+                ],
+                correct: 1, // B
+                explanation: "Batas keterbukaan Pancasila meliputi: stabilitas nasional yang dinamis, larangan terhadap ideologi Marxisme-Leninisme/Komunisme, mencegah berkembangnya paham liberalisme ekstrem, serta penciptaan norma baru harus melalui konsensus."
+            },
+            {
+                id: 24,
+                topic: "Pancasila sebagai Ideologi Terbuka",
+                question: "Perhatikan pernyataan berikut:<br>'Nilai-nilai yang terkandung dalam Pancasila bukanlah hasil pemikiran satu orang filsuf melainkan digali dari kebiasaan gotong royong, musyawarah desa, toleransi beragama, dan solidaritas sosial yang telah hidup berabad-abad di Nusantara.'<br><br>Pernyataan tersebut menegaskan bahwa Pancasila memenuhi salah satu dimensi ideologi terbuka, yaitu...",
+                options: [
+                    "Dimensi Idealitas",
+                    "Dimensi Normatif",
+                    "Dimensi Realitas",
+                    "Dimensi Progresif"
+                ],
+                correct: 2, // C (Opsi pendek)
+                explanation: "Dimensi Realitas berarti nilai-nilai dasar yang terkandung dalam ideologi tersebut secara riil berakar dan hidup dalam masyarakat itu sendiri (bukan diimpor dari luar)."
+            },
+            {
+                id: 25,
+                topic: "Pancasila sebagai Ideologi Terbuka",
+                question: "Perkembangan pesat teknologi kecerdasan buatan (<em>Artificial Intelligence</em>) dan transaksi ekonomi digital menuntut pemerintah membuat regulasi baru mengenai perlindungan data pribadi dan etika digital. Dalam kerangka ideologi terbuka, proses penyusunan regulasi tersebut merupakan perwujudan dari...",
+                options: [
+                    "Penggantian nilai dasar Pancasila agar selaras dengan standar pasar bebas internasional",
+                    "Penjabaran nilai instrumental untuk merespons dinamika zaman dengan tetap berpedoman pada perlindungan martabat manusia",
+                    "Penerapan dimensi idealitas yang bersifat abstrak sehingga tidak memerlukan sanksi hukum bagi pelanggarnya",
+                    "Transformasi Pancasila menjadi ideologi pragmatis yang hanya mengutamakan efisiensi ekonomi dan keuntungan korporasi"
+                ],
+                correct: 1, // B
+                explanation: "Membuat undang-undang/regulasi baru (seperti UU Perlindungan Data Pribadi) untuk menjawab tantangan teknologi baru merupakan aktualisasi Nilai Instrumental yang tetap berpijak pada Nilai Dasar (kemanusiaan dan keadilan)."
+            },
+            {
+                id: 26,
+                topic: "Pancasila sebagai Ideologi Terbuka",
+                question: "Mengapa paham komunisme/Marxisme-Leninisme dilarang hidup dan berkembang di Indonesia meskipun Pancasila menganut prinsip ideologi terbuka? Analisis yang paling tepat adalah...",
+                options: [
+                    "Karena paham komunisme berasal dari kawasan Eropa Timur yang tidak memiliki hubungan diplomatik dan perdagangan dengan negara-negara di Asia Tenggara",
+                    "Karena komunisme mengajarkan pertentangan kelas, ateisme, dan penghapusan hak milik pribadi secara mutlak yang bertentangan langsung dengan sila-sila Pancasila",
+                    "Karena paham komunisme mewajibkan sistem pemilihan umum multipartai yang dapat menimbulkan ketidakstabilan politik di tingkat pemerintahan daerah",
+                    "Karena komunisme menolak seluruh bentuk pembangunan industri modern dan kemajuan ilmu pengetahuan demi mempertahankan sistem pertanian tradisional"
+                ],
+                correct: 1, // B
+                explanation: "Secara ideologis, Marxisme-Leninisme/Komunisme bertentangan secara diametral dengan Pancasila: ateisme (melanggar Sila 1), perjuangan kelas dengan kekerasan (melanggar Sila 2 & 3), serta kediktatoran proletariat (melanggar Sila 4 & 5)."
+            },
+            {
+                id: 27,
+                topic: "Pancasila sebagai Ideologi Terbuka",
+                question: "Dalam kehidupan di sekolah, seorang pengurus OSIS mengusulkan program 'Jumat Berbagi dan Literasi Digital Anti-Hoaks' sebagai bentuk nyata kepedulian sosial dan tanggung jawab bermedia sosial. Tindakan pengurus OSIS tersebut termasuk dalam tataran...",
+                options: [
+                    "Nilai Praksis Pancasila",
+                    "Nilai Dasar Pancasila",
+                    "Nilai Instrumental Pancasila",
+                    "Dimensi Normatif Konstitusi"
+                ],
+                correct: 0, // A (Singkat)
+                explanation: "Kegiatan nyata dalam kehidupan sehari-hari di lingkungan sekolah maupun masyarakat merupakan wujud dari Nilai Praksis Pancasila."
+            },
+
+            // --- TOPIK 4: HIERARKI PERATURAN PERUNDANG-UNDANGAN (28 - 36) ---
+            {
+                id: 28,
+                topic: "Hierarki Peraturan Perundang-undangan",
+                question: "Berdasarkan Pasal 7 ayat (1) UU No. 12 Tahun 2011 tentang Pembentukan Peraturan Perundang-undangan, terdapat hierarki peraturan dari yang tertinggi hingga terendah. Manakah urutan yang benar di bawah ini?",
+                options: [
+                    "UUD NRI 1945 – Ketetapan MPR – UU/Perppu – Peraturan Pemerintah – Peraturan Presiden – Perda Provinsi – Perda Kabupaten/Kota",
+                    "UUD NRI 1945 – UU/Perppu – Ketetapan MPR – Peraturan Presiden – Peraturan Pemerintah – Perda Provinsi – Perda Kabupaten/Kota",
+                    "Pancasila – UUD NRI 1945 – Ketetapan MPR – UU/Perppu – Peraturan Pemerintah – Keputusan Menteri – Perda Kabupaten/Kota",
+                    "UUD NRI 1945 – Ketetapan MPR – Peraturan Pemerintah – UU/Perppu – Peraturan Presiden – Perda Kabupaten/Kota – Perda Provinsi"
+                ],
+                correct: 0, // A
+                explanation: "Sesuai Pasal 7 ayat (1) UU No. 12 Tahun 2011, urutan hierarki yang sah adalah: (1) UUD NRI 1945, (2) Tap MPR, (3) UU/Perppu, (4) PP, (5) Perpres, (6) Perda Provinsi, (7) Perda Kabupaten/Kota. (Pancasila adalah sumber dari segala sumber hukum di Pasal 2, bukan bagian dari urutan Pasal 7)."
+            },
+            {
+                id: 29,
+                topic: "Hierarki Peraturan Perundang-undangan",
+                question: "Sebuah Peraturan Daerah (Perda) Kabupaten X menetapkan retribusi perizinan usaha mikro yang substansinya bertentangan dengan ketentuan dalam Undang-Undang Cipta Kerja dan Peraturan Pemerintah tentang Kemudahan Berusaha. Berdasarkan asas pembentukan dan keberlakuan peraturan perundang-undangan, norma hukum tersebut harus diselesaikan dengan menerapkan asas...",
+                options: [
+                    "Lex Specialis Derogat Legi Generali (peraturan yang bersifat khusus mengesampingkan peraturan yang bersifat umum)",
+                    "Lex Superior Derogat Legi Inferiori (peraturan yang lebih tinggi mengesampingkan peraturan yang lebih rendah)",
+                    "Lex Posterior Derogat Legi Priori (peraturan yang terbaru mengesampingkan peraturan yang telah terbit lebih lama)",
+                    "Presumption of Innocence (setiap peraturan daerah dianggap sah berlaku sebelum adanya putusan dari Mahkamah Konstitusi)"
+                ],
+                correct: 1, // B
+                explanation: "Karena terjadi pertentangan antara peraturan yang lebih rendah (Perda Kabupaten) dengan peraturan yang lebih tinggi (UU dan PP), maka berlaku asas Lex Superior Derogat Legi Inferiori: hukum yang lebih tinggi mengesampingkan hukum yang lebih rendah."
+            },
+            {
+                id: 30,
+                topic: "Hierarki Peraturan Perundang-undangan",
+                question: "Mengapa kedudukan Undang-Undang (UU) dan Peraturan Pemerintah Pengganti Undang-Undang (Perppu) ditempatkan pada tingkat hierarki yang sejajar dalam Pasal 7 ayat (1) UU No. 12 Tahun 2011?",
+                options: [
+                    "Karena keduanya sama-sama dibentuk oleh Dewan Perwakilan Rakyat melalui proses pembahasan bersama dengan Dewan Perwakilan Daerah",
+                    "Karena materi muatan Perppu sama dengan materi muatan Undang-Undang, namun ditetapkan oleh Presiden dalam hal ihwal kegentingan yang memaksa",
+                    "Karena Perppu memiliki masa berlaku permanen yang tidak memerlukan persetujuan maupun pengawasan dari lembaga legislatif setelah diundangkan",
+                    "Karena Undang-Undang hanya mengatur bidang keuangan negara, sedangkan Perppu mengatur seluruh bidang pertahanan dan keamanan nasional"
+                ],
+                correct: 1, // B
+                explanation: "Perppu memiliki materi muatan yang setara dengan Undang-Undang, namun dikeluarkan oleh Presiden dalam keadaan darurat/kegentingan yang memaksa (Pasal 22 UUD 1945) tanpa menunggu proses pembahasan DPR yang memakan waktu lama."
+            },
+            {
+                id: 31,
+                topic: "Hierarki Peraturan Perundang-undangan",
+                question: "Perhatikan kasus hukum berikut:<br>Dalam Kitab Undang-Undang Hukum Pidana (KUHP) diatur ketentuan umum mengenai tindak pidana penyalahgunaan wewenang dan penggelapan. Namun, apabila seorang pejabat negara melakukan tindak pidana korupsi yang merugikan keuangan negara, penegak hukum menerapkan Undang-Undang Pemberantasan Tindak Pidana Korupsi (UU Tipikor) yang kedudukannya sama-sama Undang-Undang.<br><br>Asas hukum yang mendasari penerapan UU Tipikor dalam kasus tersebut adalah...",
+                options: [
+                    "Lex Superior Derogat Legi Inferiori",
+                    "Lex Posterior Derogat Legi Priori",
+                    "Lex Specialis Derogat Legi Generali",
+                    "Nullum Delictum Nulla Poena Sine Praevia Lege"
+                ],
+                correct: 2, // C (Opsi singkat)
+                explanation: "KUHP adalah aturan pidana umum (lex generalis), sedangkan UU Tipikor adalah aturan pidana khusus (lex specialis) pada tingkatan yang sama (sama-sama UU). Maka berlaku asas Lex Specialis Derogat Legi Generali."
+            },
+            {
+                id: 32,
+                topic: "Hierarki Peraturan Perundang-undangan",
+                question: "Dalam sistem peraturan perundang-undangan Indonesia, terdapat pula peraturan yang ditetapkan oleh MPR, DPR, DPD, MA, MK, BPK, Komisi Yudisial, Bank Indonesia, Menteri, Kepala Badan/Lembaga, hingga Peraturan Desa (Pasal 8 ayat 1 UU No. 12 Tahun 2011). Peraturan-peraturan tersebut diakui keberadaannya dan mempunyai kekuatan hukum mengikat sepanjang...",
+                options: [
+                    "Telah mendapatkan pengesahan tertulis dari Mahkamah Konstitusi dan diumumkan dalam berita acara rapat paripurna DPR",
+                    "Diperintahkan oleh Peraturan Perundang-undangan yang lebih tinggi atau dibentuk berdasarkan kewenangan lembaga tersebut",
+                    "Tidak mengatur pembebanan pajak maupun retribusi kepada warga negara yang berdomisili di wilayah kabupaten atau kota",
+                    "Disusun oleh tim perumus yang seluruh anggotanya berasal dari kalangan akademisi fakultas hukum perguruan tinggi negeri"
+                ],
+                correct: 1, // B
+                explanation: "Sesuai Pasal 8 ayat (2) UU No. 12 Tahun 2011, peraturan perundang-undangan di luar Pasal 7 ayat (1) diakui keberadaannya dan mempunyai kekuatan hukum mengikat sepanjang diperintahkan oleh Peraturan Perundang-undangan yang lebih tinggi atau dibentuk berdasarkan kewenangan."
+            },
+            {
+                id: 33,
+                topic: "Hierarki Peraturan Perundang-undangan",
+                question: "Pada tahun 2022 disahkan Undang-Undang baru tentang Perlindungan Data Pribadi yang mencabut beberapa ketentuan lama dalam Undang-Undang Informasi dan Transaksi Elektronik (UU ITE) terkait tata kelola data elektronik. Hubungan keberlakuan antara aturan baru dan aturan lama yang sederajat tersebut mencerminkan asas...",
+                options: [
+                    "Lex Posterior Derogat Legi Priori",
+                    "Lex Superior Derogat Legi Inferiori",
+                    "Equality Before the Law",
+                    "Presumption of Constitutionality"
+                ],
+                correct: 0, // A (Opsi singkat)
+                explanation: "Lex Posterior Derogat Legi Priori berarti peraturan perundang-undangan yang baru mengesampingkan peraturan perundang-undangan yang lama pada tingkatan hierarki yang sama."
+            },
+            {
+                id: 34,
+                topic: "Hierarki Peraturan Perundang-undangan",
+                question: "Peraturan Pemerintah (PP) merupakan salah satu jenis peraturan perundang-undangan dalam hierarki hukum nasional. Fungsi utama dari diterbitkannya sebuah Peraturan Pemerintah adalah...",
+                options: [
+                    "Menggantikan kedudukan Undang-Undang apabila Dewan Perwakilan Rakyat sedang memasuki masa reses persidangan tahunan",
+                    "Menjalankan dan menjabarkan ketentuan dalam Undang-Undang sebagaimana mestinya agar dapat dilaksanakan secara teknis",
+                    "Menguji kesesuaian antara Peraturan Daerah Provinsi dengan Undang-Undang Dasar Negara Republik Indonesia Tahun 1945",
+                    "Menetapkan garis-garis besar haluan negara yang mengikat lembaga eksekutif, legislatif, dan yudikatif selama lima tahun"
+                ],
+                correct: 1, // B
+                explanation: "Sesuai Pasal 5 ayat (2) UUD 1945, Presiden menetapkan Peraturan Pemerintah untuk menjalankan Undang-Undang sebagaimana mestinya (peraturan pelaksana dari UU)."
+            },
+            {
+                id: 35,
+                topic: "Hierarki Peraturan Perundang-undangan",
+                question: "Salah satu asas dalam pembentukan peraturan perundang-undangan yang baik (Pasal 5 UU No. 12 Tahun 2011) adalah asas 'Keterbukaan'. Jika suatu rancangan undang-undang dibahas secara tertutup tanpa melibatkan partisipasi bermakna (<em>meaningful participation</em>) dari masyarakat terdampak, konsekuensinya adalah...",
+                options: [
+                    "Undang-undang tersebut secara otomatis batal demi hukum tanpa perlu diajukan permohonan pengujian ke lembaga peradilan",
+                    "Undang-undang tersebut mengalami cacat formil dalam proses pembentukannya sehingga dapat dibatalkan melalui uji formil di Mahkamah Konstitusi",
+                    "Presiden berhak membubarkan fraksi-fraksi di Dewan Perwakilan Rakyat yang menyetujui pengesahan undang-undang tersebut",
+                    "Mahkamah Agung wajib menerbitkan Peraturan Pemerintah Pengganti Undang-Undang untuk menunda pemberlakuan aturan tersebut"
+                ],
+                correct: 1, // B
+                explanation: "Pelanggaran terhadap asas pembentukan peraturan (seperti keterbukaan dan partisipasi publik) merupakan pelanggaran tata cara pembentukan UU, sehingga dapat menjadi dasar gugatan Uji Formil (formele toetsingsrecht) ke Mahkamah Konstitusi."
+            },
+            {
+                id: 36,
+                topic: "Hierarki Peraturan Perundang-undangan",
+                question: "Mengapa Peraturan Daerah (Perda) Provinsi berada satu tingkat di atas Peraturan Daerah Kabupaten/Kota dalam Pasal 7 ayat (1) UU No. 12 Tahun 2011, meskipun keduanya sama-sama merupakan produk hukum otonomi daerah?",
+                options: [
+                    "Karena Gubernur selain sebagai kepala daerah otonom juga berkedudukan sebagai wakil pemerintah pusat di daerah yang melakukan pembinaan dan pengawasan terhadap Kabupaten/Kota",
+                    "Karena anggota DPRD Provinsi dipilih langsung oleh rakyat melalui pemilihan umum, sedangkan anggota DPRD Kabupaten/Kota diangkat oleh Menteri Dalam Negeri",
+                    "Karena wilayah administratif Provinsi memiliki sumber daya alam yang lebih melimpah dibandingkan seluruh wilayah Kabupaten/Kota yang berada di dalamnya",
+                    "Karena Perda Kabupaten/Kota hanya bersifat imbauan moral kepada warga desa sehingga tidak memiliki sanksi administratif maupun pidana kurungan"
+                ],
+                correct: 0, // A
+                explanation: "Dalam sistem otonomi daerah NKRI, Gubernur merupakan kepala daerah provinsi sekaligus wakil pemerintah pusat di daerah (asas dekonsentrasi), sehingga regulasi tingkat provinsi berada di atas regulasi kabupaten/kota dan Perda Kab/Kota tidak boleh bertentangan dengan Perda Provinsi."
+            },
+
+            // --- TOPIK 5: MAHKAMAH KONSTITUSI (MK) & MAHKAMAH AGUNG (MA) (37 - 43) ---
+            {
+                id: 37,
+                topic: "Kewenangan MK & MA",
+                question: "Perhatikan dua permohonan pengujian peraturan perundang-undangan berikut:<br>• <strong>Permohonan I:</strong> Koalisi masyarakat sipil mengajukan pengujian materiil terhadap Pasal 15 Undang-Undang Nomor X Tahun 2023 karena dinilai membatasi hak kemerdekaan berpendapat yang dijamin Pasal 28E ayat (3) UUD NRI 1945.<br>• <strong>Permohonan II:</strong> Asosiasi pengusaha angkutan mengajukan pengujian terhadap Peraturan Menteri Perhubungan Nomor Y Tahun 2023 karena dinilai bertentangan dengan Undang-Undang Nomor 22 Tahun 2009 tentang Lalu Lintas dan Angkutan Jalan.<br><br>Lembaga peradilan yang memiliki kewenangan absolut untuk memeriksa dan memutus Permohonan I dan Permohonan II secara berturut-turut adalah...",
+                options: [
+                    "Mahkamah Agung dan Mahkamah Konstitusi",
+                    "Mahkamah Konstitusi dan Pengadilan Tata Usaha Negara",
+                    "Mahkamah Konstitusi dan Mahkamah Agung",
+                    "Komisi Yudisial dan Mahkamah Konstitusi"
+                ],
+                correct: 2, // C (Singkat dan padat)
+                explanation: "Permohonan I menguji UU terhadap UUD 1945 -> kewenangan Mahkamah Konstitusi (MK). Permohonan II menguji peraturan di bawah UU (Permenhub) terhadap UU -> kewenangan Mahkamah Agung (MA)."
+            },
+            {
+                id: 38,
+                topic: "Kewenangan MK & MA",
+                question: "Putusan Mahkamah Konstitusi (MK) dalam menguji Undang-Undang terhadap UUD NRI Tahun 1945 bersifat <em>final and binding</em> (final dan mengikat). Makna hukum dari sifat putusan <em>final and binding</em> tersebut adalah...",
+                options: [
+                    "Pihak yang tidak puas terhadap putusan MK masih dapat mengajukan upaya hukum banding ke Pengadilan Tinggi dan kasasi ke Mahkamah Agung dalam waktu 14 hari",
+                    "Putusan MK langsung memperoleh kekuatan hukum tetap sejak diucapkan dalam sidang pleno terbuka untuk umum dan tidak ada upaya hukum lain yang dapat ditempuh",
+                    "Putusan MK baru dapat berlaku efektif mengikat warga negara setelah mendapatkan persetujuan tertulis dari Presiden dan pimpinan Dewan Perwakilan Rakyat",
+                    "Putusan MK hanya mengikat pemohon yang mengajukan perkara saja, sedangkan bagi warga negara lainnya pasal undang-undang yang dibatalkan tetap berlaku"
+                ],
+                correct: 1, // B
+                explanation: "Sesuai Pasal 24C ayat (1) UUD 1945, MK mengadili pada tingkat pertama dan terakhir yang putusannya bersifat final (tidak ada banding/kasasi) dan langsung berkekuatan hukum tetap sejak diucapkan (erga omnes / mengikat semua pihak)."
+            },
+            {
+                id: 39,
+                topic: "Kewenangan MK & MA",
+                question: "Selain berwenang mengadili perkara pada tingkat kasasi dan menguji peraturan perundang-undangan di bawah undang-undang terhadap undang-undang, Mahkamah Agung (MA) membawahi empat lingkungan peradilan di Indonesia. Keempat lingkungan peradilan tersebut adalah...",
+                options: [
+                    "Peradilan Umum, Peradilan Agama, Peradilan Militer, dan Peradilan Tata Usaha Negara",
+                    "Peradilan Umum, Peradilan Konstitusi, Peradilan Adat, dan Peradilan Hubungan Industrial",
+                    "Peradilan Pidana, Peradilan Perdata, Peradilan Niaga, dan Peradilan Tindak Pidana Korupsi",
+                    "Peradilan Agama, Peradilan Militer, Peradilan Pemilihan Umum, dan Peradilan Pajak"
+                ],
+                correct: 0, // A (Singkat)
+                explanation: "Sesuai Pasal 24 ayat (2) UUD 1945, kekuasaan kehakiman dilakukan oleh sebuah Mahkamah Agung dan badan peradilan yang berada di bawahnya dalam lingkungan: (1) Peradilan Umum, (2) Peradilan Agama, (3) Peradilan Militer, dan (4) Peradilan Tata Usaha Negara (PTUN)."
+            },
+            {
+                id: 40,
+                topic: "Kewenangan MK & MA",
+                question: "Apabila terjadi sengketa kewenangan konstitusional antara Komisi Pemilihan Umum (KPU) dengan Dewan Perwakilan Rakyat (DPR) mengenai penafsiran kewenangan yang diberikan oleh UUD NRI Tahun 1945, lembaga negara yang berwenang memutus sengketa tersebut adalah...",
+                options: [
+                    "Mahkamah Agung melalui mekanisme fatwa hukum yang diajukan oleh Presiden selaku kepala negara",
+                    "Mahkamah Konstitusi sesuai dengan amanat Pasal 24C ayat (1) UUD NRI Tahun 1945",
+                    "Majelis Permusyawaratan Rakyat melalui sidang istimewa yang dihadiri oleh seluruh anggota DPD",
+                    "Komisi Yudisial sebagai lembaga pengawas perilaku hakim dan penegak keluhuran konstitusi"
+                ],
+                correct: 1, // B
+                explanation: "Salah satu dari 4 kewenangan utama MK dalam Pasal 24C ayat (1) UUD 1945 adalah memutus sengketa kewenangan lembaga negara yang kewenangannya diberikan oleh UUD."
+            },
+            {
+                id: 41,
+                topic: "Kewenangan MK & MA",
+                question: "Dalam mekanisme pemberhentian Presiden dan/atau Wakil Presiden dalam masa jabatannya (<em>impeachment</em>) menurut Pasal 7B UUD NRI Tahun 1945, Mahkamah Konstitusi memiliki peran yang sangat krusial, yaitu...",
+                options: [
+                    "Memberhentikan Presiden secara langsung tanpa perlu melibatkan sidang paripurna Majelis Permusyawaratan Rakyat apabila terbukti bersalah",
+                    "Memeriksa, mengadili, dan memutus pendapat DPR bahwa Presiden/Wakil Presiden telah melakukan pelanggaran hukum berat atau tidak lagi memenuhi syarat",
+                    "Mengajukan usulan pemberhentian Presiden kepada Mahkamah Agung setelah menerima laporan pengaduan dari masyarakat umum",
+                    "Menunjuk pejabat sementara Presiden dari kalangan hakim konstitusi hingga terpilihnya Presiden baru melalui pemilihan umum luar biasa"
+                ],
+                correct: 1, // B
+                explanation: "Dalam proses impeachment: DPR mengajukan pendapat dugaan pelanggaran hukum oleh Presiden/Wapres -> MK wajib memeriksa, mengadili, dan memutus pendapat DPR tersebut -> Jika MK membenarkan pendapat DPR, baru MPR bersidang untuk memutuskan pemberhentian."
+            },
+            {
+                id: 42,
+                topic: "Kewenangan MK & MA",
+                question: "Seorang warga negara mengajukan gugatan uji materiil terhadap Peraturan Daerah Provinsi Z ke Mahkamah Konstitusi karena merasa hak konstitusionalnya dirugikan oleh Perda tersebut. Sikap hakim Mahkamah Konstitusi terhadap permohonan tersebut adalah...",
+                options: [
+                    "Mengabulkan permohonan tersebut apabila terbukti bertentangan dengan nilai-nilai Pancasila dalam Pembukaan UUD 1945",
+                    "Menyatakan permohonan tidak dapat diterima (niet ontvankelijke verklaard) karena pengujian Perda merupakan kewenangan Mahkamah Agung",
+                    "Meneruskan berkas perkara tersebut kepada Pengadilan Tinggi Tata Usaha Negara agar diputus pada tingkat banding terlebih dahulu",
+                    "Memerintahkan Gubernur Provinsi Z untuk segera mencabut Perda tersebut dalam jangka waktu maksimal tiga puluh hari kerja"
+                ],
+                correct: 1, // B
+                explanation: "MK hanya berwenang menguji Undang-Undang terhadap UUD 1945. Peraturan di bawah UU (termasuk PP, Perpres, Perda) diuji oleh Mahkamah Agung (MA) terhadap UU. Maka gugatan Perda ke MK akan dinyatakan tidak dapat diterima (NO) karena bukan kewenangan absolut MK."
+            },
+            {
+                id: 43,
+                topic: "Kewenangan MK & MA",
+                question: "Komposisi hakim konstitusi pada Mahkamah Konstitusi berjumlah 9 (sembilan) orang yang ditetapkan oleh Presiden. Untuk menjaga prinsip <em>checks and balances</em> (saling mengawasi dan mengimbangi) antar cabang kekuasaan negara, kesembilan hakim konstitusi tersebut diajukan masing-masing 3 orang oleh...",
+                options: [
+                    "Mahkamah Agung, Dewan Perwakilan Rakyat, dan Presiden",
+                    "Dewan Perwakilan Rakyat, Dewan Perwakilan Daerah, dan Komisi Yudisial",
+                    "Presiden, Majelis Permusyawaratan Rakyat, dan Komisi Yudisial",
+                    "Mahkamah Agung, Komisi Pemberantasan Korupsi, dan Presiden"
+                ],
+                correct: 0, // A (Singkat)
+                explanation: "Sesuai Pasal 24C ayat (3) UUD 1945, MK mempunyai 9 orang anggota hakim konstitusi yang ditetapkan oleh Presiden, yang diajukan masing-masing 3 orang oleh Mahkamah Agung (yudikatif), 3 orang oleh DPR (legislatif), dan 3 orang oleh Presiden (eksekutif)."
+            },
+
+            // --- TOPIK 6: PROSES PEMBUATAN PRODUK HUKUM (44 - 50) ---
+            {
+                id: 44,
+                topic: "Proses Pembuatan Produk Hukum",
+                question: "Berdasarkan Pasal 20 ayat (2) UUD NRI Tahun 1945, setiap Rancangan Undang-Undang (RUU) dibahas oleh Dewan Perwakilan Rakyat (DPR) dan Presiden untuk mendapat persetujuan bersama. Apabila suatu RUU telah mendapat persetujuan bersama antara DPR dan Presiden, namun Presiden tidak menandatangani RUU tersebut dalam waktu 30 hari sejak disetujui bersama, akibat hukum yang terjadi adalah...",
+                options: [
+                    "RUU tersebut menjadi batal demi hukum dan tidak boleh diajukan kembali dalam masa sidang DPR pada periode yang sama",
+                    "RUU tersebut sah menjadi Undang-Undang dan wajib diundangkan dalam Lembaran Negara Republik Indonesia",
+                    "DPR wajib mengajukan permohonan fatwa hukum kepada Mahkamah Konstitusi untuk memaksa Presiden menandatangani RUU tersebut",
+                    "RUU tersebut berubah status hukumnya menjadi Peraturan Pemerintah Pengganti Undang-Undang hingga akhir masa jabatan Presiden"
+                ],
+                correct: 1, // B
+                explanation: "Sesuai Pasal 20 ayat (5) UUD 1945: 'Dalam hal rancangan undang-undang yang telah disetujui bersama tersebut tidak disahkan oleh Presiden dalam waktu tiga puluh hari semenjak rancangan undang-undang tersebut disetujui, rancangan undang-undang tersebut sah menjadi undang-undang dan wajib diundangkan.'"
+            },
+            {
+                id: 45,
+                topic: "Proses Pembuatan Produk Hukum",
+                question: "Dewan Perwakilan Daerah (DPD) memiliki hak konstitusional untuk mengajukan Rancangan Undang-Undang (RUU) kepada DPR dan ikut membahasnya bersama DPR dan Presiden. Namun, ruang lingkup RUU yang dapat diajukan oleh DPD dibatasi hanya pada bidang-bidang tertentu, yaitu...",
+                options: [
+                    "Pertahanan dan keamanan negara, kebijakan moneter dan fiskal nasional, serta perjanjian internasional dengan negara sahabat",
+                    "Otonomi daerah, hubungan pusat dan daerah, pembentukan/pemekaran/penggabungan daerah, pengelolaan sumber daya alam, serta perimbangan keuangan pusat dan daerah",
+                    "Pengangkatan hakim agung dan hakim konstitusi, pemberantasan tindak pidana korupsi, serta sistem peradilan pidana terpadu",
+                    "Penetapan anggaran pendapatan dan belanja negara (APBN), pembentukan kementerian negara, serta tata cara pemilihan umum presiden"
+                ],
+                correct: 1, // B
+                explanation: "Sesuai Pasal 22D ayat (1) dan (2) UUD 1945, DPD dapat mengajukan kepada DPR dan ikut membahas RUU yang berkaitan dengan otonomi daerah, hubungan pusat dan daerah, pembentukan dan pemekaran serta penggabungan daerah, pengelolaan SDA dan sumber daya ekonomi lainnya, serta perimbangan keuangan pusat dan daerah."
+            },
+            {
+                id: 46,
+                topic: "Proses Pembuatan Produk Hukum",
+                question: "Perhatikan skenario berikut:<br>Terjadi krisis ekonomi global mendadak yang mengancam stabilitas sistem keuangan nasional sehingga dibutuhkan payung hukum darurat dalam waktu 3 hari, sementara DPR sedang berada dalam masa reses dan pembahasan RUU reguler akan memakan waktu berbulan-bulan.<br><br>Langkah konstitusional yang dapat ditempuh oleh Presiden berdasarkan Pasal 22 UUD NRI Tahun 1945 adalah...",
+                options: [
+                    "Menerbitkan Keputusan Presiden (Keppres) yang membatalkan seluruh undang-undang di bidang perbankan dan keuangan negara",
+                    "Menetapkan Peraturan Pemerintah Pengganti Undang-Undang (Perppu) yang nantinya harus mendapat persetujuan DPR pada persidangan berikutnya",
+                    "Meminta Mahkamah Agung mengeluarkan Surat Edaran Mahkamah Agung (SEMA) yang berlaku mengikat sebagai undang-undang darurat",
+                    "Membekukan sementara fungsi legislasi DPR dan mengambil alih seluruh kewenangan pembentukan undang-undang hingga krisis ekonomi berakhir"
+                ],
+                correct: 1, // B
+                explanation: "Dalam hal ihwal kegentingan yang memaksa, Presiden berhak menetapkan Perppu (Pasal 22 ayat 1 UUD 1945). Perppu tersebut harus mendapat persetujuan DPR dalam persidangan yang berikut (ayat 2); jika tidak mendapat persetujuan, Perppu itu harus dicabut (ayat 3)."
+            },
+            {
+                id: 47,
+                topic: "Proses Pembuatan Produk Hukum",
+                question: "Dalam proses pembentukan Undang-Undang yang baik menurut UU No. 12 Tahun 2011, terdapat tahapan berurutan yang harus dilalui dari awal hingga akhir. Urutan tahapan pembentukan Undang-Undang yang tepat adalah...",
+                options: [
+                    "Perencanaan (Prolegnas) – Penyusunan – Pembahasan – Pengesahan – Pengundangan",
+                    "Penyusunan – Pengundangan – Perencanaan (Prolegnas) – Pembahasan – Pengesahan",
+                    "Pembahasan – Perencanaan (Prolegnas) – Pengesahan – Penyusunan – Pengundangan",
+                    "Perencanaan (Prolegnas) – Pembahasan – Pengundangan – Penyusunan – Pengesahan"
+                ],
+                correct: 0, // A (Singkat & sistematis)
+                explanation: "Tahapan pembentukan peraturan perundang-undangan menurut Pasal 1 angka 1 UU No. 12 Tahun 2011 terdiri atas: (1) Perencanaan (melalui Prolegnas), (2) Penyusunan (Naskah Akademik & draf RUU), (3) Pembahasan (Tingkat I & II antara DPR dan Presiden), (4) Pengesahan (oleh Presiden), dan (5) Pengundangan (penempatan dalam Lembaran Negara)."
+            },
+            {
+                id: 48,
+                topic: "Proses Pembuatan Produk Hukum",
+                question: "Apa perbedaan mendasar antara proses 'Pengesahan' dan 'Pengundangan' dalam pembuatan suatu Undang-Undang di Indonesia?",
+                options: [
+                    "Pengesahan dilakukan oleh Ketua Mahkamah Konstitusi, sedangkan pengundangan dilakukan oleh Ketua Dewan Perwakilan Rakyat",
+                    "Pengesahan adalah pembubuhan tanda tangan Presiden pada naskah RUU yang telah disetujui bersama, sedangkan pengundangan adalah penempatan UU dalam Lembaran Negara agar diketahui masyarakat luas dan mulai berlaku mengikat",
+                    "Pengesahan dilakukan sebelum RUU dibahas bersama dalam rapat paripurna DPR, sedangkan pengundangan dilakukan setelah uji materiil selesai",
+                    "Pengesahan berlaku hanya untuk Undang-Undang yang diusulkan oleh Presiden, sedangkan pengundangan berlaku hanya untuk RUU inisiatif DPR"
+                ],
+                correct: 1, // B
+                explanation: "Pengesahan (ratification/signing) adalah tindakan Presiden menandatangani RUU yang telah disetujui bersama. Pengundangan (promulgation) adalah penempatan peraturan dalam Lembaran Negara (oleh Menteri Sekretaris Negara/Menteri Hukum) sebagai syarat agar peraturan tersebut resmi diketahui publik dan mempunyai kekuatan mengikat (asas fiksi hukum)."
+            },
+            {
+                id: 49,
+                topic: "Proses Pembuatan Produk Hukum",
+                question: "Apabila suatu Rancangan Undang-Undang (RUU) yang dibahas oleh DPR dan Presiden tidak mendapat persetujuan bersama dalam rapat paripurna DPR, konsekuensi konstitusional berdasarkan Pasal 20 ayat (3) UUD NRI Tahun 1945 adalah...",
+                options: [
+                    "Presiden tetap berhak mengesahkan RUU tersebut menjadi Undang-Undang apabila didukung oleh mayoritas Gubernur di seluruh Indonesia",
+                    "RUU tersebut tidak boleh diajukan lagi dalam persidangan Dewan Perwakilan Rakyat masa itu",
+                    "RUU tersebut secara otomatis diserahkan kepada Dewan Perwakilan Daerah untuk disahkan menjadi Peraturan Daerah Nasional",
+                    "DPR dapat langsung mengundangkan RUU tersebut dalam Berita Negara tanpa memerlukan persetujuan maupun tanda tangan Presiden"
+                ],
+                correct: 1, // B
+                explanation: "Sesuai Pasal 20 ayat (3) UUD 1945: 'Jika rancangan undang-undang itu tidak mendapat persetujuan bersama, rancangan undang-undang itu tidak boleh diajukan lagi dalam persidangan Dewan Perwakilan Rakyat masa itu.'"
+            },
+            {
+                id: 50,
+                topic: "Proses Pembuatan Produk Hukum",
+                question: "Dalam pembentukan Peraturan Daerah (Perda) Kabupaten Malang, Raperda dapat berasal dari DPRD Kabupaten Malang atau Bupati Malang. Apabila Raperda tersebut diusulkan oleh Bupati Malang, proses selanjutnya agar Raperda tersebut sah menjadi Perda adalah...",
+                options: [
+                    "Bupati Malang langsung menetapkan Raperda tersebut menjadi Perda tanpa perlu membahasnya dengan DPRD apabila menyangkut anggaran daerah",
+                    "Raperda dibahas bersama oleh DPRD Kabupaten Malang dan Bupati untuk mendapat persetujuan bersama, lalu ditetapkan oleh Bupati menjadi Perda",
+                    "Raperda dikirimkan langsung kepada Mahkamah Agung untuk mendapatkan pengesahan sebelum diundangkan dalam Lembaran Daerah",
+                    "Bupati Malang mengadakan pemungutan suara seluruh warga kabupaten sebelum mengajukan Raperda tersebut kepada Gubernur Jawa Timur"
+                ],
+                correct: 1, // B
+                explanation: "Sama seperti mekanisme UU di tingkat pusat, pembentukan Perda (baik usulan DPRD maupun Kepala Daerah) wajib dibahas bersama antara DPRD dan Kepala Daerah untuk mendapat persetujuan bersama sebelum ditetapkan menjadi Perda dan diundangkan dalam Lembaran Daerah."
+            }
+        ];
+
+        // ==========================================
+        // 4. STATE APLIKASI
+        // ==========================================
+        let currentTab = 'latihan';
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let isTeacherMode = false;
+        let isQuizFinished = false;
+        let pendingConfirmCallback = null;
+        let studentData = {
+            name: '',
+            className: ''
+        };
+        let selectedClassTemp = '';
+
+        // ==========================================
+        // 5. INISIALISASI APLIKASI
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMateri();
+            renderKisiKisi();
+            renderQuestion();
+            lucide.createIcons();
+            setTimeout(() => document.getElementById('student-name-input').focus(), 150);
+        });
+
+        // ==========================================
+        // 5B. LOGIKA IDENTITAS SISWA (NAMA & KELAS)
+        // ==========================================
+        function selectStudentClass(className) {
+            selectedClassTemp = className;
+            document.querySelectorAll('.class-choice-btn').forEach(btn => {
+                if (btn.getAttribute('data-class') === className) {
+                    btn.classList.remove('border-slate-300', 'text-slate-700', 'hover:bg-slate-50');
+                    btn.classList.add('border-red-700', 'bg-red-50', 'text-red-800', 'ring-1', 'ring-red-700');
+                } else {
+                    btn.classList.add('border-slate-300', 'text-slate-700', 'hover:bg-slate-50');
+                    btn.classList.remove('border-red-700', 'bg-red-50', 'text-red-800', 'ring-1', 'ring-red-700');
+                }
+            });
+        }
+
+        function saveStudentData() {
+            const nameInput = document.getElementById('student-name-input').value.trim();
+            const errorMsg = document.getElementById('student-error-msg');
+
+            if (!nameInput || !selectedClassTemp) {
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            errorMsg.classList.add('hidden');
+            studentData.name = nameInput;
+            studentData.className = selectedClassTemp;
+
+            document.getElementById('display-student-name').textContent = studentData.name;
+            document.getElementById('display-student-class').textContent = `Kelas ${studentData.className} • SMPN 1 Kalipare`;
+            document.getElementById('student-info-bar').classList.remove('hidden');
+            document.getElementById('student-modal').classList.add('hidden');
+            lucide.createIcons();
+        }
+
+        function openStudentModal() {
+            document.getElementById('student-name-input').value = studentData.name;
+            if (studentData.className) {
+                selectStudentClass(studentData.className);
+            }
+            document.getElementById('student-error-msg').classList.add('hidden');
+            document.getElementById('student-modal').classList.remove('hidden');
+        }
+
+        function switchToTeacherFromStart() {
+            document.getElementById('student-modal').classList.add('hidden');
+            toggleTeacherModal();
+        }
+
+        // ==========================================
+        // 6. NAVIGASI TAB
+        // ==========================================
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Sembunyikan semua section
+            document.getElementById('view-materi').classList.add('hidden');
+            document.getElementById('view-kisikisi').classList.add('hidden');
+            document.getElementById('view-latihan').classList.add('hidden');
+
+            // Reset style semua tab
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('border-red-700', 'text-red-700');
+                btn.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            // Tampilkan section & aktifkan tab terpilih
+            document.getElementById(`view-${tabName}`).classList.remove('hidden');
+            const activeTab = document.getElementById(`tab-${tabName}`);
+            activeTab.classList.remove('border-transparent', 'text-slate-500');
+            activeTab.classList.add('border-red-700', 'text-red-700');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ==========================================
+        // 7. RENDER MATERI & KISI-KISI
+        // ==========================================
+        function renderMateri() {
+            const container = document.getElementById('materi-container');
+            container.innerHTML = materiData.map((item, idx) => `
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <button onclick="toggleMateriAccordion(${idx})" class="w-full px-5 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition-colors">
+                        <div class="flex items-center space-x-3 pr-2">
+                            <div class="bg-red-50 text-red-700 p-2 rounded-xl shrink-0">
+                                <i data-lucide="${item.icon}" class="w-4 h-4"></i>
+                            </div>
+                            <span class="font-bold text-slate-800 text-sm sm:text-base">${item.title}</span>
+                        </div>
+                        <i id="materi-chevron-${idx}" data-lucide="chevron-down" class="w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${idx === 0 ? 'rotate-180' : ''}"></i>
+                    </button>
+                    <div id="materi-body-${idx}" class="${idx === 0 ? '' : 'hidden'} px-5 pb-5 pt-1 border-t border-slate-100 space-y-2.5 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        ${item.points.map(pt => `
+                            <div class="flex items-start space-x-2.5 bg-slate-50/80 p-3 rounded-xl border border-slate-100">
+                                <span class="w-1.5 h-1.5 rounded-full bg-red-600 mt-2 shrink-0"></span>
+                                <p>${pt}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleMateriAccordion(idx) {
+            const body = document.getElementById(`materi-body-${idx}`);
+            const chevron = document.getElementById(`materi-chevron-${idx}`);
+            body.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        }
+
+        function renderKisiKisi() {
+            const tbody = document.getElementById('kisikisi-tbody');
+            tbody.innerHTML = kisiKisiData.map(row => `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="py-3.5 px-4 font-bold text-slate-700 align-top">${row.no}</td>
+                    <td class="py-3.5 px-4 font-semibold text-slate-900 align-top min-w-[150px]">${row.materi}</td>
+                    <td class="py-3.5 px-4 text-slate-600 leading-relaxed align-top min-w-[240px]">${row.indikator}</td>
+                    <td class="py-3.5 px-4 text-center align-top">
+                        <span class="inline-block bg-amber-100 text-amber-800 font-bold text-[11px] px-2.5 py-1 rounded-lg">${row.level}</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-center font-bold text-red-700 align-top whitespace-nowrap">${row.soal}</td>
+                </tr>
+            `).join('');
+        }
+
+        // ==========================================
+        // 8. LOGIKA KUIS & RENDER SOAL
+        // ==========================================
+        function renderQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            const total = questionsData.length;
+            const answeredTotal = userAnswers.filter(a => a !== null).length;
+
+            // Update header soal & progress
+            document.getElementById('question-topic-badge').textContent = q.topic;
+            document.getElementById('question-counter-text').textContent = `Soal ${currentQuestionIndex + 1} dari ${total}`;
+            document.getElementById('answered-count').textContent = `Terjawab: ${answeredTotal} / ${total}`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / total) * 100}%`;
+
+            // Render teks soal
+            document.getElementById('question-text').innerHTML = `
+                <div class="flex items-start space-x-2.5">
+                    <span class="bg-slate-800 text-white text-xs font-bold px-2.5 py-1 rounded-lg shrink-0 mt-0.5">${q.id}</span>
+                    <div class="space-y-2 w-full">${q.question}</div>
+                </div>
+            `;
+
+            // Render pilihan jawaban
+            const letters = ['A', 'B', 'C', 'D'];
+            const optionsContainer = document.getElementById('options-container');
+            const selectedAnswer = userAnswers[currentQuestionIndex];
+            const showKey = isTeacherMode || isQuizFinished;
+
+            optionsContainer.innerHTML = q.options.map((optText, optIdx) => {
+                let cardStyle = "border-slate-200 bg-white hover:bg-slate-50 text-slate-800";
+                let badgeStyle = "bg-slate-100 text-slate-700 border-slate-300";
+                let statusIcon = "";
+
+                if (showKey) {
+                    if (optIdx === q.correct) {
+                        cardStyle = "border-emerald-500 bg-emerald-50/90 text-emerald-950 ring-1 ring-emerald-500";
+                        badgeStyle = "bg-emerald-600 text-white border-emerald-600";
+                        statusIcon = `<i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i>`;
+                    } else if (selectedAnswer === optIdx && optIdx !== q.correct) {
+                        cardStyle = "border-rose-500 bg-rose-50/90 text-rose-950";
+                        badgeStyle = "bg-rose-600 text-white border-rose-600";
+                        statusIcon = `<i data-lucide="x-circle" class="w-5 h-5 text-rose-600 shrink-0"></i>`;
+                    }
+                } else {
+                    if (selectedAnswer === optIdx) {
+                        cardStyle = "border-red-700 bg-red-50/70 text-red-950 ring-1 ring-red-700";
+                        badgeStyle = "bg-red-700 text-white border-red-700";
+                    }
+                }
+
+                return `
+                    <button onclick="selectOption(${optIdx})" class="w-full text-left p-3.5 sm:p-4 rounded-xl border transition-all flex items-start space-x-3 ${cardStyle}">
+                        <span class="w-7 h-7 rounded-lg border flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 transition-colors ${badgeStyle}">
+                            ${letters[optIdx]}
+                        </span>
+                        <span class="text-xs sm:text-sm leading-relaxed flex-grow">${optText}</span>
+                        ${statusIcon}
+                    </button>
+                `;
+            }).join('');
+
+            // Render kotak pembahasan jika Mode Guru aktif atau Ujian Selesai
+            const expBox = document.getElementById('explanation-box');
+            if (showKey) {
+                expBox.classList.remove('hidden');
+                const isCorrectUser = selectedAnswer === q.correct;
+                const userStatusText = selectedAnswer === null 
+                    ? `<span class="text-slate-600 font-semibold">Belum dijawab</span>` 
+                    : (isCorrectUser 
+                        ? `<span class="text-emerald-700 font-bold">Jawaban Anda Benar (${letters[selectedAnswer]})</span>` 
+                        : `<span class="text-rose-700 font-bold">Jawaban Anda Salah (${letters[selectedAnswer]})</span>`);
+
+                expBox.className = "rounded-xl p-4 border border-amber-300 bg-amber-50/90 text-xs sm:text-sm space-y-2";
+                expBox.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-amber-200 pb-2">
+                        <div class="flex items-center space-x-1.5 text-amber-900 font-bold">
+                            <i data-lucide="lightbulb" class="w-4 h-4 text-amber-600"></i>
+                            <span>Kunci Jawaban: ${letters[q.correct]}</span>
+                        </div>
+                        ${isQuizFinished ? `<div>${userStatusText}</div>` : `<span class="text-[11px] bg-amber-200/80 text-amber-900 px-2 py-0.5 rounded font-semibold">Analisis Guru</span>`}
+                    </div>
+                    <p class="text-slate-800 leading-relaxed"><strong>Pembahasan:</strong> ${q.explanation}</p>
+                `;
+            } else {
+                expBox.classList.add('hidden');
+            }
+
+            // Update tombol navigasi
+            document.getElementById('btn-prev').disabled = currentQuestionIndex === 0;
+            const btnNext = document.getElementById('btn-next');
+            if (currentQuestionIndex === total - 1) {
+                btnNext.innerHTML = `<span>Selesai & Nilai</span><i data-lucide="check-circle" class="w-4 h-4"></i>`;
+                btnNext.onclick = finishQuiz;
+            } else {
+                btnNext.innerHTML = `<span>Selanjutnya</span><i data-lucide="chevron-right" class="w-4 h-4"></i>`;
+                btnNext.onclick = nextQuestion;
+            }
+
+            lucide.createIcons();
+        }
+
+        function selectOption(optIdx) {
+            if (isQuizFinished) return; // Kunci jawaban jika ujian sudah selesai
+            userAnswers[currentQuestionIndex] = optIdx;
+            renderQuestion();
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questionsData.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function jumpToQuestion(idx) {
+            currentQuestionIndex = idx;
+            closeGridModal();
+            renderQuestion();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ==========================================
+        // 9. SELESAI UJIAN & PERHITUNGAN SKOR
+        // ==========================================
+        function finishQuiz() {
+            const answeredTotal = userAnswers.filter(a => a !== null).length;
+            const unanswered = questionsData.length - answeredTotal;
+
+            if (unanswered > 0 && !isQuizFinished) {
+                showConfirmModal(
+                    "Selesaikan Latihan Sekarang?",
+                    `Masih ada ${unanswered} soal yang belum Anda jawab. Apakah Anda yakin ingin mengakhiri latihan dan melihat nilai akhir?`,
+                    () => calculateAndShowResult()
+                );
+            } else {
+                calculateAndShowResult();
+            }
+        }
+
+        function calculateAndShowResult() {
+            isQuizFinished = true;
+            let correctCount = 0;
+            questionsData.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const wrongCount = questionsData.length - correctCount;
+            const finalScore = Math.round((correctCount / questionsData.length) * 100);
+
+            document.getElementById('score-final').textContent = finalScore;
+            document.getElementById('score-correct').textContent = correctCount;
+            document.getElementById('score-wrong').textContent = wrongCount;
+
+            const identityLabel = studentData.name 
+                ? `${studentData.name} • Kelas ${studentData.className}` 
+                : `Peserta Mode Guru / Tamu`;
+            document.getElementById('result-student-identity').textContent = identityLabel;
+
+            let feedback = "";
+            const studentGreet = studentData.name ? `Ananda <strong>${studentData.name}</strong> (${studentData.className}), ` : "";
+            if (finalScore >= 85) {
+                feedback = `${studentGreet}<strong>Luar Biasa!</strong> Pemahaman Anda terhadap materi Pendidikan Pancasila Kelas 9 dan kemampuan analisis soal HOTS sangat matang. Pertahankan prestasi ini untuk UAS di SMP Negeri 1 Kalipare!`;
+            } else if (finalScore >= 70) {
+                feedback = `${studentGreet}<strong>Cukup Baik!</strong> Anda sudah menguasai sebagian besar konsep dasar, namun masih perlu mencermati pengecoh pada soal-soal analisis kasus (HOTS). Silakan tinjau kembali pembahasan soal yang keliru.`;
+            } else {
+                feedback = `${studentGreet}<strong>Perlu Belajar Lebih Giat!</strong> Soal-soal HOTS memang dirancang menantang dan menjebak. Pelajari kembali tab <em>Ringkasan Materi</em>, lalu pelajari pembahasan di setiap nomor soal.`;
+            }
+            document.getElementById('score-feedback').innerHTML = feedback;
+
+            document.getElementById('result-panel').classList.remove('hidden');
+            renderQuestion();
+            document.getElementById('result-panel').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function reviewAnswers() {
+            currentQuestionIndex = 0;
+            renderQuestion();
+            document.getElementById('quiz-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            showConfirmModal(
+                "Ulangi Latihan?",
+                "Semua jawaban Anda saat ini akan dihapus dan latihan akan dimulai kembali dari soal nomor 1.",
+                () => {
+                    userAnswers = new Array(questionsData.length).fill(null);
+                    isQuizFinished = false;
+                    currentQuestionIndex = 0;
+                    document.getElementById('result-panel').classList.add('hidden');
+                    renderQuestion();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            );
+        }
+
+        // ==========================================
+        // 10. LOGIKA MODE GURU
+        // ==========================================
+        function toggleTeacherModal() {
+            if (isTeacherMode) {
+                deactivateTeacherMode();
+            } else {
+                document.getElementById('teacher-pin-input').value = '';
+                document.getElementById('teacher-error-msg').classList.add('hidden');
+                document.getElementById('teacher-modal').classList.remove('hidden');
+                setTimeout(() => document.getElementById('teacher-pin-input').focus(), 100);
+            }
+        }
+
+        function closeTeacherModal() {
+            document.getElementById('teacher-modal').classList.add('hidden');
+        }
+
+        function verifyTeacherPin() {
+            const input = document.getElementById('teacher-pin-input').value.trim().toUpperCase();
+            // Kode akses guru yang valid
+            const validCodes = ['GURU1KALIPARE', '12345', 'PANCASILA9', 'GURU'];
+            
+            if (validCodes.includes(input)) {
+                isTeacherMode = true;
+                closeTeacherModal();
+                updateTeacherUI();
+                renderQuestion();
+            } else {
+                document.getElementById('teacher-error-msg').classList.remove('hidden');
+            }
+        }
+
+        function deactivateTeacherMode() {
+            isTeacherMode = false;
+            updateTeacherUI();
+            renderQuestion();
+        }
+
+        function updateTeacherUI() {
+            const banner = document.getElementById('teacher-banner');
+            const btnText = document.getElementById('teacher-btn-text');
+            const btnIcon = document.getElementById('teacher-icon');
+            const btn = document.getElementById('btn-teacher-mode');
+
+            if (isTeacherMode) {
+                banner.classList.remove('hidden');
+                btnText.textContent = 'Guru Aktif';
+                btn.classList.remove('bg-white/10');
+                btn.classList.add('bg-amber-400', 'text-amber-950', 'border-amber-300');
+                btnIcon.setAttribute('data-lucide', 'unlock');
+                btnIcon.classList.remove('text-amber-300');
+                btnIcon.classList.add('text-amber-950');
+            } else {
+                banner.classList.add('hidden');
+                btnText.textContent = 'Mode Guru';
+                btn.classList.add('bg-white/10');
+                btn.classList.remove('bg-amber-400', 'text-amber-950', 'border-amber-300');
+                btnIcon.setAttribute('data-lucide', 'lock');
+                btnIcon.classList.add('text-amber-300');
+                btnIcon.classList.remove('text-amber-950');
+            }
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // 11. MODAL NAVIGASI GRID & KONFIRMASI
+        // ==========================================
+        function openGridModal() {
+            const container = document.getElementById('question-grid-container');
+            container.innerHTML = questionsData.map((q, idx) => {
+                let btnClass = "bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200";
+                
+                if (idx === currentQuestionIndex) {
+                    btnClass = "bg-red-700 text-white border-red-700 ring-2 ring-red-300";
+                } else if (isQuizFinished) {
+                    if (userAnswers[idx] === q.correct) {
+                        btnClass = "bg-emerald-600 text-white border-emerald-600";
+                    } else {
+                        btnClass = "bg-rose-600 text-white border-rose-600";
+                    }
+                } else if (userAnswers[idx] !== null) {
+                    btnClass = "bg-emerald-600 text-white border-emerald-600";
+                }
+
+                return `
+                    <button onclick="jumpToQuestion(${idx})" class="h-10 rounded-xl border text-xs font-bold flex items-center justify-center transition-all ${btnClass}">
+                        ${q.id}
+                    </button>
+                `;
+            }).join('');
+
+            document.getElementById('grid-modal').classList.remove('hidden');
+        }
+
+        function closeGridModal() {
+            document.getElementById('grid-modal').classList.add('hidden');
+        }
+
+        function showConfirmModal(title, message, callback) {
+            document.getElementById('confirm-title').textContent = title;
+            document.getElementById('confirm-message').textContent = message;
+            pendingConfirmCallback = callback;
+            document.getElementById('custom-confirm-modal').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('custom-confirm-modal').classList.add('hidden');
+            pendingConfirmCallback = null;
+        }
+
+        document.getElementById('confirm-action-btn').addEventListener('click', () => {
+            if (pendingConfirmCallback) {
+                pendingConfirmCallback();
+            }
+            closeConfirmModal();
+        });
+    </script>
+</body>
+</html>
